@@ -61,7 +61,7 @@ def get_location():
     if confirm == "Y":
         pass
     elif confirm == "N":
-        country = (input("In which country is your town? \n").lower().strip())
+        country = input("In which country is your town? \n").lower().strip()
         location = geolocator.geocode(f"{address}, {country}")
 
         # Check if country input is valid. If not, geopy will return None
