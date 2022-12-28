@@ -1,11 +1,35 @@
-# Write your code to expect a terminal of 80 characters wide and 24 rows high
-
 import random
 import geopy
 from geopy.geocoders import Nominatim
-import requests
 from classes import MeteoDataCall
+import emoji
 
+
+def validate_input(string):
+    """
+    Validate the input string to match all possible characters
+    available in common town names.
+    """
+    for c in string:
+        if not c.isalpha() and c not in [' ', '-', '.', "'", '\u2019']:
+            return False
+    return True
+
+
+def validate_address():
+    """
+    Validate the input address in order to not stress the geopy
+    api with wrong searches for impossible places.
+    If input is invalid, report and prompt for correct input.
+    """
+    while True:
+        address = input(
+            "For which town you want to get the weather? "
+        ).lower().strip()
+        if validate_input(address):
+            return address
+        else:
+            print(f"{address} is not valid, try again!")
 
 
 def get_location():
@@ -13,9 +37,11 @@ def get_location():
     This function is used to get the latitude/longtitude of a specific town,
     to use for API call. User gets prompted to input a town.
     """
-    address = (input("For which town you want to get the weather? ").lower().strip())
 
-    # Initiate the geopy module using Nominatim (OSM) and the geocode for a address
+    address = validate_address()
+
+    # Initiate the geopy module using Nominatim (OSM)
+    # and the geocode for a requested address
     geolocator = Nominatim(user_agent="SUNSHINE")
     location = geolocator.geocode(address)
 
@@ -39,7 +65,7 @@ def get_location():
         location = geolocator.geocode(f"{address}, {country}")
 
         # Check if country input is valid. If not, geopy will return None
-        if location != None:
+        if location is not None:
             print(f"You're interested to get the weather for {location}.")
         else:
             print("This place does not seem to exist!")
@@ -53,31 +79,45 @@ def get_location():
         if confirm == "Y":
             pass
         elif confirm == "N":
-            postalcode = input("What is the zip code of your town? \n").rstrip()
+            postalcode = input(
+                "What is the zip code of your town? \n"
+            ).rstrip()
             
-            # important to not include city in search, only country and postalcode,
-            # otherwise wrong positives will appear
+            # important to not include city in search, only country and
+            # postalcode, otherwise wrong positives will appear
             location = geolocator.geocode(f"{country}, {postalcode}")
 
-            # Check if postalcode input is valid. If not, geopy will return None
-            if location != None:
-                print(f"You're interested to get the weather for {postalcode}, {address}, {country}.")
+            # Check if postalcode input is valid. If not,
+            # geopy will return None
+            if location is not None:
+                print(
+                    "You're interested to get the weather for "
+                    f"{postalcode}, {address}, {country}."
+                )
             else:
                 print("This place does not seem to exist!")
                 return
     coordinates = [location.latitude, location.longitude]
     return coordinates
 
-# coordinates = get_location()
-# 
-# print(coordinates)
 
-coordinates = [46.2017559, 6.1466014]
+coordinates = get_location()
 
-api_fetcher = MeteoDataCall(coordinates)
-weatherdata = api_fetcher.live_data()
-if weatherdata:
-    print(weatherdata)
-else:
-    print("An error occurred while fetching the data.")
 
+print(coordinates)
+
+# coordinates = [46.2017559, 6.1466014]
+
+# api_fetcher = MeteoDataCall(coordinates)
+# weatherdata = api_fetcher.live_data()
+# if weatherdata is not None:
+#     print(weatherdata)
+# else:
+#     print("An error occurred while fetching the data.")
+
+
+# print(
+#     "The weather at this location is "
+#     f"{weathercondition} "
+#     f"{emoji.CONDITIONS[weathercondition.replace(' ', '_')]}"
+# )
