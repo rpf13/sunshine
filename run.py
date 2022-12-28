@@ -4,6 +4,7 @@ import random
 import geopy
 from geopy.geocoders import Nominatim
 import requests
+from classes import MeteoDataCall
 
 
 
@@ -64,13 +65,19 @@ def get_location():
             else:
                 print("This place does not seem to exist!")
                 return
-    return location        
+    coordinates = [location.latitude, location.longitude]
+    return coordinates
 
-location = get_location()
-print(location)
-print(location.latitude)
-print(location.longtitude)
+# coordinates = get_location()
+# 
+# print(coordinates)
 
+coordinates = [46.2017559, 6.1466014]
 
-
+api_fetcher = MeteoDataCall(coordinates)
+weatherdata = api_fetcher.live_data()
+if weatherdata:
+    print(weatherdata)
+else:
+    print("An error occurred while fetching the data.")
 
