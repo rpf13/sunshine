@@ -149,19 +149,24 @@ def get_location():
     return coordinates
 
 
-coordinates = get_location()
 
 
-print(coordinates)
 
-# coordinates = [46.2017559, 6.1466014]
+# ====---- Remember to reactivate the geodata geopy function ===---
 
-# api_fetcher = MeteoDataCall(coordinates)
-# weatherdata = api_fetcher.live_data()
-# if weatherdata is not None:
-#     print(weatherdata)
-# else:
-#     print("An error occurred while fetching the data.")
+# coordinates = get_location()
+# print(coordinates)
+
+coordinates = [46.2017559, 6.1466014]
+# coordinates = ['ada', 'beda']
+
+api_fetcher = MeteoDataCall(coordinates)
+weatherdata = api_fetcher.live_data()
+if weatherdata is not None:
+    print(weatherdata)
+    print(weatherdata["current_weather"]["weathercode"])
+else:
+    print("An error occurred while fetching the data.")
 
 
 # print(
