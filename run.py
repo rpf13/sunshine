@@ -149,13 +149,74 @@ def get_location():
     return coordinates
 
 
-
-
+# Create a weather-report based on the received WMO Weather
+# interpretation weathercode using the translation table on
+# open-meteo.com api reference.
+def translate_weathercode():
+    """
+    Function to translate the weathercode into a human readable code
+    and assign ascii art element to it.
+    """
+    weathercode = weatherdata["current_weather"]["weathercode"]
+    if weathercode == 0:
+        weathercondition = "clear skies"
+    elif weathercode == 1:
+        weathercondition = "mainly clear"
+    elif weathercode == 2:
+        weathercondition = "partly cloudy"
+    elif weathercode == 3:
+        weathercondition = "overcast"
+    elif weathercode == 45 or weathercode == 48:
+        weathercondition = "foggy"
+    elif weathercode == 51:
+        weathercondition = "light drizzle"
+    elif weathercode == 53:
+        weathercondition = "moderate drizzle"
+    elif weathercode == 55:
+        weathercondition = "dense drizzle"
+    elif weathercode == 56 or weathercode == 57:
+        weathercondition = "light freezing drizzle"
+    elif weathercode == 57:
+        weathercondition = "dense freezing drizzle"
+    elif weathercode == 61:
+        weathercondition = "slight rain"
+    elif weathercode == 63:
+        weathercondition = "moderate rain"
+    elif weathercode == 65:
+        weathercondition = "heavy rain"
+    elif weathercode == 66:
+        weathercondition = "light freezing rain"
+    elif weathercode == 67:
+        weathercondition = "heavy freezing rain"
+    elif weathercode == 71:
+        weathercondition = "slight snow"
+    elif weathercode == 73:
+        weathercondition = "moderate snow"
+    elif weathercode == 75 or weathercode == 77:
+        weathercondition = "heavy snow"
+    elif weathercode == 80:
+        weathercondition = "slight rain showers"
+    elif weathercode == 81:
+        weathercondition = "moderate rain showers"
+    elif weathercode == 82:
+        weathercondition = "violent rain showers"
+    elif weathercode == 85:
+        weathercondition = "slight snow showers"
+    elif weathercode == 86:
+        weathercondition = "heavy snow showers"
+    elif weathercode == 95:
+        weathercondition = "thunderstorms"
+    elif weathercode == 96 or weathercode == 99:
+        weathercondition = "thunderstorms with hail"
+    else:
+        weathercondition = "none"
+    return weathercondition
 
 # ====---- Remember to reactivate the geodata geopy function ===---
 
 # coordinates = get_location()
 # print(coordinates)
+
 
 coordinates = [46.2017559, 6.1466014]
 # coordinates = ['ada', 'beda']
@@ -168,6 +229,8 @@ if weatherdata is not None:
 else:
     print("An error occurred while fetching the data.")
 
+weathercondition = translate_weathercode()
+print(f"the condition at this location is {weathercondition}")
 
 # print(
 #     "The weather at this location is "
