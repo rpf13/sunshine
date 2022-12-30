@@ -48,14 +48,41 @@ def validate_country():
         else:
             print(f"{country} is not valid, try again!")
 
+
+def validate_zip_input(string):
+    """
+    Validate the input string to match all possible characters
+    available in common zip, postalcodes.
+    """
+    for c in string:
+        if not c.isalnum() and c not in [' ', '-']:
+            return False
+    return True
+
+
+def validate_postalcode():
+    """
+    Validate the input zip/postal code to not stress the geopy
+    api with wrong searches for impossible countries.
+    """
+    while True:
+        postalcode = input(
+            "What is the zip / postal code of your town? \n"
+        ).rstrip()
+        if validate_zip_input(postalcode):
+            return postalcode
+        else:
+            print(f"{postalcode} is not valid, try again!")
+
+
 def get_location():
     """
-    This function is used to get the latitude/longtitude of a specific town,
+    This function is used to get the latitude/longitude of a specific town,
     to use for API call. User gets prompted to input a town.
     """
 
-    # get the address by calling dedicated function
-    # which validates the user input
+    # get the address by calling function
+    # which validates user input
     address = validate_address()
 
     # Initiate the geopy module using Nominatim (OSM)
@@ -79,8 +106,8 @@ def get_location():
     if confirm == "Y":
         pass
     elif confirm == "N":
-        # get the country by calling dedicated function
-        # which validates the user input
+        # get the country by calling function
+        # which validates user input
         country = validate_country()
         location = geolocator.geocode(f"{address}, {country}")
 
@@ -99,9 +126,10 @@ def get_location():
         if confirm == "Y":
             pass
         elif confirm == "N":
-            postalcode = input(
-                "What is the zip code of your town? \n"
-            ).rstrip()
+
+            # get postalcode by calling function
+            # which validates user input
+            postalcode = validate_postalcode()
             
             # important to not include city in search, only country and
             # postalcode, otherwise wrong positives will appear
