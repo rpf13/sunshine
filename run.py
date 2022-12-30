@@ -3,12 +3,13 @@ import geopy
 from geopy.geocoders import Nominatim
 from classes import MeteoDataCall
 import emoji
+import re
 
 
 def validate_input(string):
     """
     Validate the input string to match all possible characters
-    available in common town names.
+    available in common town and country names.
     """
     for c in string:
         if not c.isalpha() and c not in [' ', '-', '.', "'", '\u2019']:
@@ -24,7 +25,7 @@ def validate_address():
     """
     while True:
         address = input(
-            "For which town you want to get the weather? "
+            "For which town you want to get the weather? \n"
         ).lower().strip()
         if validate_input(address):
             return address
@@ -32,12 +33,29 @@ def validate_address():
             print(f"{address} is not valid, try again!")
 
 
+def validate_country():
+    """
+    Validate the input country in order to not stress the geopy
+    api with wrong searches for impossible countries.
+    If input is invalid, report and prompt for correct input.
+    """
+    while True:
+        country = input(
+            "In which country is your town? \n"
+        ).lower().strip()
+        if validate_input(country):
+            return country
+        else:
+            print(f"{country} is not valid, try again!")
+
 def get_location():
     """
     This function is used to get the latitude/longtitude of a specific town,
     to use for API call. User gets prompted to input a town.
     """
 
+    # get the address by calling dedicated function
+    # which validates the user input
     address = validate_address()
 
     # Initiate the geopy module using Nominatim (OSM)
@@ -61,7 +79,9 @@ def get_location():
     if confirm == "Y":
         pass
     elif confirm == "N":
-        country = input("In which country is your town? \n").lower().strip()
+        # get the country by calling dedicated function
+        # which validates the user input
+        country = validate_country()
         location = geolocator.geocode(f"{address}, {country}")
 
         # Check if country input is valid. If not, geopy will return None
