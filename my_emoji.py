@@ -1,0 +1,30 @@
+# This module includes the constant used for the emojis
+
+CONDITIONS = {
+    "clear_skies": "☀️ ☀️",
+    "mainly_clear": "🌤️",
+    "partly_cloudy": "🌥️",
+    "overcast": "☁️",
+    "foggy": "🌫️",
+    "light_drizzle": "☁️ 🌧️",
+    "moderate_drizzle": "☁️ 🌧️",
+    "dense_drizzle": "☁️ 🌧️",
+    "light_freezing_drizzle": "🌧️ ❄️",
+    "dense_freezing_drizzle": "🌧️ ❄️",
+    "slight_rain": "☔",
+    "moderate_rain": "🌧️",
+    "heavy_rain": "🌧️ 🌧️ ☔",
+    "light_freezing rain": "🌧️ ❄️",
+    "heavy_freezing rain": "🌧️ ❄️ ❄️",
+    "slight_snow": "❄️",
+    "moderate_snow": "❄️ ❄️",
+    "heavy_snow": "❄️ 🌨️ ☃️",
+    "slight_rain_showers": "☔",
+    "moderate_rain_showers": "🌧️",
+    "violent_rain_showers": "🌧️ 🌧️ 🌧️ 😱 😱",
+    "slight_snow_showers": "❄️",
+    "heavy_snow_showers": "❄️ ❄️ 🌨️ 🌨️",
+    "thunderstorms": "🌩️ 🌪️ 😱",
+    "thunderstorms_with_hail": "🌩️ 🌪️ ❄️ 😱",
+    "none": "🥺"
+}
