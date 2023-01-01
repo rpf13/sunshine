@@ -2,10 +2,12 @@ import random
 import geopy
 from geopy.geocoders import Nominatim
 from classes import MeteoDataCall
-import emoji
+import my_emoji
 import re
 
 
+# Some functions follow, which validate user input required
+# to get the geodata from OSM (Open Street Map) for a specific place
 def validate_input(string):
     """
     Validate the input string to match all possible characters
@@ -75,10 +77,14 @@ def validate_postalcode():
             print(f"{postalcode} is not valid, try again!")
 
 
+# Function to get geodata from geopy module (api)
 def get_location():
     """
     This function is used to get the latitude/longitude of a specific town,
-    to use for API call. User gets prompted to input a town.
+    required for the open-meteo api call. User gets prompted to input a town,
+    country or postal code. The input is used to get the data via the OSM
+    Nominatim module, which is basically an api call. Return value is an
+    array with the latitude, longitude value.
     """
 
     # get the address by calling function
@@ -149,13 +155,12 @@ def get_location():
     return coordinates
 
 
-# Create a weather-report based on the received WMO Weather
-# interpretation weathercode using the translation table on
-# open-meteo.com api reference.
-def translate_weathercode():
+# Translate the weathercode from api call
+def translate_weathercode(weatherdata):
     """
-    Function to translate the weathercode into a human readable code
-    and assign ascii art element to it.
+    Function to translate the received WMO weathercode into
+    a human readable code using the translation table on
+    open-meteo.com api reference.
     """
     weathercode = weatherdata["current_weather"]["weathercode"]
     if weathercode == 0:
@@ -212,28 +217,46 @@ def translate_weathercode():
         weathercondition = "none"
     return weathercondition
 
-# ====---- Remember to reactivate the geodata geopy function ===---
 
-# coordinates = get_location()
-# print(coordinates)
+# Function to get the live weather from related resources
+def get_live_weather():
+    """
+    This function gets all necessary data for the live weather,
+    calls the required functions and classes and prints the
+    result to the user. It will enhance the data with related
+    emoji's from the my_emoji CONDITIONS hash.
+    """
+    # ===-- REMEMBER TO REACTIVATE GEOPY FUNCTION W. LINE BELOW===--
+    # coordinates = get_location()
+    coordinates = [46.2017559, 6.1466014]
+    api_fetcher = MeteoDataCall(coordinates)
+    weatherdata = api_fetcher.live_data()
+    weathercondition = translate_weathercode(weatherdata)
+    temperature = weatherdata["current_weather"]["temperature"]
+    windspeed = weatherdata["current_weather"]["windspeed"]
+    # If weather api call was successful and did not return None
+    if weatherdata is not None:
+        # Print temperature for desired location
+        print(f"The current temperature there is: {temperature} ℃")
+        # If there is a valid weathercode and significant windspeed
+        if weathercondition != "none" and windspeed > 2:
+            print(
+                "The weather at this location is "
+                f"{weathercondition} "
+                f"{my_emoji.CONDITIONS[weathercondition.replace(' ', '_')]}\n"
+                f"There is wind with the speed of {windspeed} km/h"
+            )
+        elif weathercondition != "none" and windspeed <= 2:
+            print(
+                "The weather at this location is "
+                f"{weathercondition} "
+                f"{my_emoji.CONDITIONS[weathercondition.replace(' ', '_')]}\n"
+                f"There is no wind"
+            )
+    # if there was an error w. the open-meteo api and hence we got
+    # None back from the Class MeteoDataCall
+    else:
+        print("An error occurred while fetching the data.")
 
 
-coordinates = [46.2017559, 6.1466014]
-# coordinates = ['ada', 'beda']
-
-api_fetcher = MeteoDataCall(coordinates)
-weatherdata = api_fetcher.live_data()
-if weatherdata is not None:
-    print(weatherdata)
-    print(weatherdata["current_weather"]["weathercode"])
-else:
-    print("An error occurred while fetching the data.")
-
-weathercondition = translate_weathercode()
-print(f"the condition at this location is {weathercondition}")
-
-# print(
-#     "The weather at this location is "
-#     f"{weathercondition} "
-#     f"{emoji.CONDITIONS[weathercondition.replace(' ', '_')]}"
-# )
+get_live_weather()
