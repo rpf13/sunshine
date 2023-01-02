@@ -4,6 +4,9 @@ from geopy.geocoders import Nominatim
 from classes import MeteoDataCall
 import my_emoji
 import os
+import pyfiglet
+import time
+import sys
 import re
 
 
@@ -96,7 +99,7 @@ def get_location():
     Nominatim module, which is basically an api call. Return value is an
     array with the latitude, longitude value.
     """
-
+    clear_screen()
     # get the address by calling function
     # which validates user input
     address = validate_address()
@@ -237,8 +240,8 @@ def get_live_weather():
     emoji's from the my_emoji CONDITIONS hash.
     """
     # ===-- REMEMBER TO REACTIVATE GEOPY FUNCTION W. LINE BELOW===--
-    # coordinates = get_location()
-    coordinates = [46.2017559, 6.1466014]
+    coordinates = get_location()
+    # coordinates = [46.2017559, 6.1466014]
     api_fetcher = MeteoDataCall(coordinates)
     weatherdata = api_fetcher.live_data()
     weathercondition = translate_weathercode(weatherdata)
@@ -290,14 +293,44 @@ def live_weather_loop():
             print("Please input either Y or N.")
 
 
+# Main function to control the tool, display menu to user
+def main():
+    """
+    This is the main function and the starting point of the tool.
+    It will clear the screen and display the menu to the user.
+    It will request the user to enter the number for one of the
+    given options.
+    """
+    clear_screen()
+    print(pyfiglet.figlet_format(
+        "Sunshine", font="standard", justify="center"
+        ))
+    print(pyfiglet.figlet_format(
+        "A simple terminal based weather app",
+        font="contessa", justify="center"
+        ))
+    print("1. Get live weather data")
+    print("2. Get historical weather data")
+    print("3. Exit program")
+    print("Select an option by entering a number between 1-3\n")
 
-live_weather_loop()
+    while True:
+        choice = input("Enter your choice here: \n").strip()
+        if choice == "1":
+            live_weather_loop()
+        elif choice == "2":
+            print(
+                "Not implemented yet! "
+                "You will be redirected back to the main menu!"
+                )
+            time.sleep(5)
+            main()
+        elif choice == "3":
+            sys.exit("GoodBye - Have a sunny day!")
+        else:
+            print("Invalid input, enter a number between 1 and 3")
+            continue
 
 
-
-
-# get_live_weather()
-
-
-
-
+if __name__ == '__main__':
+    main()
