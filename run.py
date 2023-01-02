@@ -3,7 +3,17 @@ import geopy
 from geopy.geocoders import Nominatim
 from classes import MeteoDataCall
 import my_emoji
+import os
 import re
+
+
+# Some generic "global" functions used on various places
+
+def clear_screen():
+    """
+    Clear screen function to clean up the terminal
+    """
+    os.system("cls" if os.name == "nt" else "clear")
 
 
 # Some functions follow, which validate user input required
