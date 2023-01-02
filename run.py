@@ -269,4 +269,35 @@ def get_live_weather():
         print("An error occurred while fetching the data.")
 
 
-get_live_weather()
+# Loop for live weather function, until user decides to leave
+def live_weather_loop():
+    """
+    This function creates a live_weather loop, asking the user repeatedly
+    if he wants to take another live_weather round. If negative, will
+    bring the user back to the main menu via calling main().
+    """
+    while True:
+        get_live_weather()
+        answer = input(
+            "Do you want to get the weather for another location? Y/N \n"
+        ).upper().strip()
+        if answer == "N":
+            main()
+            break
+        elif answer == "Y":
+            continue
+        else:
+            print("Please input either Y or N.")
+
+
+
+live_weather_loop()
+
+
+
+
+# get_live_weather()
+
+
+
+
