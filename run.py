@@ -107,12 +107,21 @@ def get_location():
     # Initiate the geopy module using Nominatim (OSM)
     # and the geocode for a requested address
     geolocator = Nominatim(user_agent="SUNSHINE")
-    location = geolocator.geocode(address)
-
-    # Try / Except block to check for AttributeErrors of user input
+    # try / except block to handle geopy api errors
     try:
-        print(f"You're interested to get the weather for {location.address}.")
-    except AttributeError:
+        location = geolocator.geocode(address)
+    except GeocoderUnavailable:
+        print("The Geocoder API is currently unavailable")
+        return
+    except Exception as error:
+        print(f"There was an undefined error {error}")
+        return
+
+    # Check if country input is valid. If not, geopy will return None
+    if location is not None:
+        print(
+            f"You're interested to get the weather for {location}.")
+    else:
         print("This place does not seem to exist!")
         return
 
@@ -128,7 +137,15 @@ def get_location():
         # get the country by calling function
         # which validates user input
         country = validate_country()
-        location = geolocator.geocode(f"{address}, {country}")
+        # try / except block to handle geopy api errors
+        try:
+            location = geolocator.geocode(f"{address}, {country}")
+        except GeocoderUnavailable:
+            print("The Geocoder API is currently unavailable")
+            return
+        except Exception as error:
+            print(f"There was an undefined error {error}")
+            return
 
         # Check if country input is valid. If not, geopy will return None
         if location is not None:
@@ -136,7 +153,7 @@ def get_location():
         else:
             print("This place does not seem to exist!")
             return
-        
+
         # Ask user again to confirm if town / country fetched via geopy is
         # correct. If not ask for ZIP code. Validate also user input (Y or N)
         confirm = input("Can you confirm? Y/N \n").upper().strip()
@@ -149,10 +166,18 @@ def get_location():
             # get postalcode by calling function
             # which validates user input
             postalcode = validate_postalcode()
-            
+
+            # try / except block to handle geopy api errors
             # important to not include city in search, only country and
             # postalcode, otherwise wrong positives will appear
-            location = geolocator.geocode(f"{country}, {postalcode}")
+            try:
+                location = geolocator.geocode(f"{country}, {postalcode}")
+            except GeocoderUnavailable:
+                print("The Geocoder API is currently unavailable")
+                return
+            except Exception as error:
+                print(f"There was an undefined error {error}")
+                return
 
             # Check if postalcode input is valid. If not,
             # geopy will return None
@@ -240,8 +265,18 @@ def get_live_weather():
     emoji's from the my_emoji CONDITIONS hash.
     """
     # ===-- REMEMBER TO REACTIVATE GEOPY FUNCTION W. LINE BELOW===--
-    coordinates = get_location()
     # coordinates = [46.2017559, 6.1466014]
+    # Verify if the geopy lookup did return anything, if None, send back
+    # to the main menu and report an error
+    coordinates = get_location()
+    if coordinates is None:
+        print(
+            "There was an error when calling the Open Streetmap"
+            "API Please try again later"
+        )
+        main()
+
+    # Call the Meteo API Class
     api_fetcher = MeteoDataCall(coordinates)
     weatherdata = api_fetcher.live_data()
     weathercondition = translate_weathercode(weatherdata)
