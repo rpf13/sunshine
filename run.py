@@ -195,13 +195,13 @@ def get_location():
 
 
 # Translate the weathercode from api call
-def translate_weathercode(weatherdata):
+def translate_weathercode(weathercode):
     """
     Function to translate the received WMO weathercode into
     a human readable code using the translation table on
     open-meteo.com api reference.
     """
-    weathercode = weatherdata["current_weather"]["weathercode"]
+    weathercode = weathercode
     if weathercode == 0:
         weathercondition = "clear skies"
     elif weathercode == 1:
@@ -282,7 +282,9 @@ def get_live_weather():
     # Call the Meteo API Class
     api_fetcher = MeteoDataCall(coordinates)
     weatherdata = api_fetcher.live_data()
-    weathercondition = translate_weathercode(weatherdata)
+    weathercondition = translate_weathercode(
+        weatherdata["current_weather"]["weathercode"]
+        )
     temperature = weatherdata["current_weather"]["temperature"]
     windspeed = weatherdata["current_weather"]["windspeed"]
     # If weather api call was successful and did not return None
@@ -341,16 +343,81 @@ def get_historical_weather():
     """
     verify_date = TimeInputVerifier()
     while True:
-        historical_date = input(
+        hist_date = input(
             "For which date you would like to get the weather? \n"
             "Enter the date in the format YYYY-MM-DD \n"
             ).strip()
-        if verify_date.verify(historical_date):
+        if verify_date.verify(hist_date):
             break
         else:
             print("Invalid input, enter a valid date")
             continue
-    print("We are out of the loop, valid date")
+    # Verify if the geopy lookup did return anything, if None, send back
+    # to the main menu and report an error
+    coordinates = get_location()
+    if coordinates is None:
+        sys.exit(
+            "There was an error when calling the Open StreetMap "
+            "API to get the desired location data. "
+            "Please try again later."
+        )
+
+    # Call the Meteo API Class
+    api_fetcher = MeteoDataCall(coordinates)
+    weatherdata = api_fetcher.historical_data(hist_date)
+    weathercondition = translate_weathercode(
+        weatherdata["daily"]["weathercode"][0]
+        )
+    temperature = weatherdata["daily"]["temperature_2m_max"][0]
+    windspeed = weatherdata["daily"]["windspeed_10m_max"][0]
+    # If weather api call was successful and did not return None
+    if weatherdata is not None:
+
+        # Print historical temperature for desired location
+        print(
+            f"On the {hist_date}, "
+            f"the daily max. temperature there was: {temperature} ℃"
+        )
+        # If there is a valid weathercode and significant windspeed
+        if weathercondition != "none" and windspeed > 2:
+            print(
+                "The weather at this location was "
+                f"{weathercondition} "
+                f"{my_emoji.CONDITIONS[weathercondition.replace(' ', '_')]}\n"
+                f"There was a max wind speed of {windspeed} km/h"
+            )
+        elif weathercondition != "none" and windspeed <= 2:
+            print(
+                "The weather at this location was "
+                f"{weathercondition} "
+                f"{my_emoji.CONDITIONS[weathercondition.replace(' ', '_')]}\n"
+                f"There was no wind"
+            )
+    # if there was an error w. the open-meteo api and hence we got
+    # None back from the Class MeteoDataCall
+    else:
+        print("An error occurred while fetching the data.")
+
+
+# Loop for historical weather function, until user decides to leave
+def historical_weather_loop():
+    """
+    This function creates a historical_weather loop, asking the user repeatedly
+    if he wants to take another historical_weather round. If negative, will
+    bring the user back to the main menu via calling main().
+    """
+    while True:
+        get_historical_weather()
+        answer = input(
+            "Do you want to get the weather for another location? Y/N \n"
+        ).upper().strip()
+        if answer == "N":
+            main()
+            break
+        elif answer == "Y":
+            continue
+        else:
+            print("Please input either Y or N.")
 
 
 # Main function to control the tool, display menu to user
@@ -380,7 +447,7 @@ def main():
         if choice == "1":
             live_weather_loop()
         elif choice == "2":
-            get_historical_weather()
+            historical_weather_loop()
         elif choice == "3":
             print(
                 "Not implemented yet! "
