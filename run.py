@@ -100,7 +100,6 @@ def get_location():
     Nominatim module, which is basically an api call. Return value is an
     array with the latitude, longitude value.
     """
-    clear_screen()
     # get the address by calling function
     # which validates user input
     address = validate_address()
@@ -320,6 +319,7 @@ def live_weather_loop():
     bring the user back to the main menu via calling main().
     """
     while True:
+        clear_screen()
         get_live_weather()
         answer = input(
             "Do you want to get the weather for another location? Y/N \n"
@@ -407,6 +407,7 @@ def historical_weather_loop():
     bring the user back to the main menu via calling main().
     """
     while True:
+        clear_screen()
         get_historical_weather()
         answer = input(
             "Do you want to get the weather for another location? Y/N \n"
