@@ -5,9 +5,12 @@ import sys
 import re
 
 
+# Main class to execute the API calls and do the error handling.
 class MeteoDataCall:
     """
-    Class to execute api call for weather on open-meteo.com
+    Class to execute api call for live and historical
+    weather on open-meteo.com. Error handling done at
+    this stage.
     """
     def __init__(self, coordinates):
         # instance attributes
@@ -75,13 +78,19 @@ class MeteoDataCall:
                 )
 
 
-class TimeInputVerifier:
+# Class to verify if the date input for the historical option
+# is valid or not.
+class DateInputVerifier:
+    """
+    Date verification class, used to verify user input
+    """
     def __init__(self):
         self.pattern = r"^\d{4}-\d{2}-\d{2}$"
 
     def verify(self, input_string: str) -> bool:
         """
         Verify that the input string matches the
-        desired time format (YYYY-MM-DD).
+        desired time format (YYYY-MM-DD). Returns
+        boolean value used further in the calling part
         """
         return bool(re.match(self.pattern, input_string))

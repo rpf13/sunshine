@@ -1,8 +1,7 @@
-import random
 import geopy
 from geopy.geocoders import Nominatim
 from classes import MeteoDataCall
-from classes import TimeInputVerifier
+from classes import DateInputVerifier
 import my_emoji
 import os
 import pyfiglet
@@ -11,8 +10,7 @@ import sys
 import re
 
 
-# Some generic "global" functions used on various places
-
+# Clear screen function, used on various places in the code
 def clear_screen():
     """
     Clear screen function to clean up the terminal
@@ -20,7 +18,7 @@ def clear_screen():
     os.system("cls" if os.name == "nt" else "clear")
 
 
-# Some functions follow, which validate user input required
+# The following functions will validate the user input required
 # to get the geodata from OSM (Open Street Map) for a specific place
 def validate_input(string):
     """
@@ -91,7 +89,8 @@ def validate_postalcode():
             print(f"{postalcode} is not valid, try again!")
 
 
-# Function to get geodata from geopy module (api)
+# Function to get geodata from geopy module (api), the Nominatim
+# Open Street Map module of the geopy.
 def get_location():
     """
     This function is used to get the latitude/longitude of a specific town,
@@ -107,6 +106,7 @@ def get_location():
     # Initiate the geopy module using Nominatim (OSM)
     # and the geocode for a requested address
     geolocator = Nominatim(user_agent="SUNSHINE")
+
     # try / except block to handle geopy api errors
     try:
         location = geolocator.geocode(address)
@@ -137,6 +137,7 @@ def get_location():
         # get the country by calling function
         # which validates user input
         country = validate_country()
+
         # try / except block to handle geopy api errors
         try:
             location = geolocator.geocode(f"{address}, {country}")
@@ -184,16 +185,17 @@ def get_location():
             if location is not None:
                 print(
                     "You're interested to get the weather for "
-                    f"{postalcode}, {address}, {country}."
+                    f"{location}."
                 )
             else:
                 print("This place does not seem to exist!")
                 return
+    # geopy will return lat/long values, which get stored in array
     coordinates = [location.latitude, location.longitude]
     return coordinates
 
 
-# Translate the weathercode from api call
+# Translate the weathercode from weather api call
 def translate_weathercode(weathercode):
     """
     Function to translate the received WMO weathercode into
@@ -262,30 +264,34 @@ def get_live_weather():
     This function gets all necessary data for the live weather,
     calls the required functions and classes and prints the
     result to the user. It will enhance the data with related
-    emoji's from the my_emoji CONDITIONS hash.
+    emoji's from the my_emoji CONDITIONS hash. Further Error
+    handling is done.
     """
     # ===-- REMEMBER TO REACTIVATE GEOPY FUNCTION W. LINE BELOW===--
     # coordinates = [46.2017559, 6.1466014]
     # coordinates = ['adra', 'dvs']
 
-    # Verify if the geopy lookup did return anything, if None, send back
-    # to the main menu and report an error
+    # Verify if the geopy lookup did return anything, if None and hence
+    # there was an error, exit program and report.
     coordinates = get_location()
     if coordinates is None:
         sys.exit(
             "There was an error when calling the Open StreetMap "
             "API to get the desired location data. "
-            "Please try again later."
         )
 
-    # Call the Meteo API Class
+    # Call the Meteo API Class and the live_data method
     api_fetcher = MeteoDataCall(coordinates)
     weatherdata = api_fetcher.live_data()
+
+    # Call the translate_weathercode function, handover code
+    # and assign return value to weathercondition variable
     weathercondition = translate_weathercode(
         weatherdata["current_weather"]["weathercode"]
         )
     temperature = weatherdata["current_weather"]["temperature"]
     windspeed = weatherdata["current_weather"]["windspeed"]
+
     # If weather api call was successful and did not return None
     if weatherdata is not None:
         # Print temperature for desired location
@@ -298,6 +304,7 @@ def get_live_weather():
                 f"{my_emoji.CONDITIONS[weathercondition.replace(' ', '_')]}\n"
                 f"There is wind with the speed of {windspeed} km/h"
             )
+        # If there is valid weathercode but not really wind
         elif weathercondition != "none" and windspeed <= 2:
             print(
                 "The weather at this location is "
@@ -339,9 +346,13 @@ def get_historical_weather():
     This function gets all necessary data for the historical weather,
     calls the required functions and classes and prints the
     result to the user. It will enhance the data with related
-    emoji's from the my_emoji CONDITIONS hash.
+    emoji's from the my_emoji CONDITIONS hash. Further error
+    handling is done. It starts with verifying the date, which
+    the user imputs, via calling the dedicated class.
     """
-    verify_date = TimeInputVerifier()
+    verify_date = DateInputVerifier()
+    # Ask and Verify for historical date, repeat question if
+    # input format is wrong.
     while True:
         hist_date = input(
             "For which date you would like to get the weather? \n"
@@ -352,27 +363,30 @@ def get_historical_weather():
         else:
             print("Invalid input, enter a valid date")
             continue
-    # Verify if the geopy lookup did return anything, if None, send back
-    # to the main menu and report an error
+
+    # Verify if the geopy lookup did return anything, if None and hence
+    # there was an error, exit program and report.
     coordinates = get_location()
     if coordinates is None:
         sys.exit(
             "There was an error when calling the Open StreetMap "
             "API to get the desired location data. "
-            "Please try again later."
         )
 
-    # Call the Meteo API Class
+    # Call the Meteo API Class and the historical data method
     api_fetcher = MeteoDataCall(coordinates)
     weatherdata = api_fetcher.historical_data(hist_date)
+
+    # Call the translate_weathercode function, handover code
+    # and assign return value to weathercondition variable
     weathercondition = translate_weathercode(
         weatherdata["daily"]["weathercode"][0]
         )
     temperature = weatherdata["daily"]["temperature_2m_max"][0]
     windspeed = weatherdata["daily"]["windspeed_10m_max"][0]
+
     # If weather api call was successful and did not return None
     if weatherdata is not None:
-
         # Print historical temperature for desired location
         print(
             f"On the {hist_date}, "
@@ -386,6 +400,7 @@ def get_historical_weather():
                 f"{my_emoji.CONDITIONS[weathercondition.replace(' ', '_')]}\n"
                 f"There was a max wind speed of {windspeed} km/h"
             )
+        # If there is valid weathercode but not really wind
         elif weathercondition != "none" and windspeed <= 2:
             print(
                 "The weather at this location was "
@@ -427,7 +442,7 @@ def main():
     This is the main function and the starting point of the tool.
     It will clear the screen and display the menu to the user.
     It will request the user to enter the number for one of the
-    given options.
+    given options. Error handling of input is done.
     """
     clear_screen()
     print(pyfiglet.figlet_format(
@@ -463,5 +478,7 @@ def main():
             continue
 
 
+# Boilerplate to make sure, methods are only called automatically,
+# if program is directly called via main().
 if __name__ == '__main__':
     main()
