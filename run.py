@@ -266,15 +266,17 @@ def get_live_weather():
     """
     # ===-- REMEMBER TO REACTIVATE GEOPY FUNCTION W. LINE BELOW===--
     # coordinates = [46.2017559, 6.1466014]
+    # coordinates = ['adra', 'dvs']
+
     # Verify if the geopy lookup did return anything, if None, send back
     # to the main menu and report an error
     coordinates = get_location()
     if coordinates is None:
-        print(
-            "There was an error when calling the Open Streetmap"
-            "API Please try again later"
+        sys.exit(
+            "There was an error when calling the Open StreetMap "
+            "API to get the desired location data. "
+            "Please try again later."
         )
-        main()
 
     # Call the Meteo API Class
     api_fetcher = MeteoDataCall(coordinates)
