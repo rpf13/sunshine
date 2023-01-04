@@ -474,7 +474,7 @@ def main():
         elif choice == "4":
             sys.exit("GoodBye - Have a sunny day!")
         else:
-            print("Invalid input, enter a number between 1 and 3")
+            print("Invalid input, enter a number between 1 and 4")
             continue
 
 
