@@ -2,6 +2,7 @@ import random
 import geopy
 from geopy.geocoders import Nominatim
 from classes import MeteoDataCall
+from classes import TimeInputVerifier
 import my_emoji
 import os
 import pyfiglet
@@ -330,6 +331,28 @@ def live_weather_loop():
             print("Please input either Y or N.")
 
 
+# Function to get historical weather from related resources
+def get_historical_weather():
+    """
+    This function gets all necessary data for the historical weather,
+    calls the required functions and classes and prints the
+    result to the user. It will enhance the data with related
+    emoji's from the my_emoji CONDITIONS hash.
+    """
+    verify_date = TimeInputVerifier()
+    while True:
+        historical_date = input(
+            "For which date you would like to get the weather? \n"
+            "Enter the date in the format YYYY-MM-DD \n"
+            ).strip()
+        if verify_date.verify(historical_date):
+            break
+        else:
+            print("Invalid input, enter a valid date")
+            continue
+    print("We are out of the loop, valid date")
+
+
 # Main function to control the tool, display menu to user
 def main():
     """
@@ -348,7 +371,8 @@ def main():
         ))
     print("1. Get live weather data")
     print("2. Get historical weather data")
-    print("3. Exit program")
+    print("3. Get weather for random location")
+    print("4. Exit program")
     print("Select an option by entering a number between 1-3\n")
 
     while True:
@@ -356,13 +380,15 @@ def main():
         if choice == "1":
             live_weather_loop()
         elif choice == "2":
+            get_historical_weather()
+        elif choice == "3":
             print(
                 "Not implemented yet! "
                 "You will be redirected back to the main menu!"
                 )
             time.sleep(5)
             main()
-        elif choice == "3":
+        elif choice == "4":
             sys.exit("GoodBye - Have a sunny day!")
         else:
             print("Invalid input, enter a number between 1 and 3")

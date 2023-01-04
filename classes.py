@@ -2,6 +2,7 @@
 
 import requests
 import sys
+import re
 
 
 class MeteoDataCall:
@@ -41,3 +42,15 @@ class MeteoDataCall:
                 "Please try again later"
                 f"Error details: {error}"
                 )
+
+
+class TimeInputVerifier:
+    def __init__(self):
+        self.pattern = r"^\d{4}-\d{2}-\d{2}$"
+
+    def verify(self, input_string: str) -> bool:
+        """
+        Verify that the input string matches the
+        desired time format (YYYY-MM-DD).
+        """
+        return bool(re.match(self.pattern, input_string))
