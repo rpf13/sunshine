@@ -457,7 +457,7 @@ def main():
     print("2. Get historical weather data")
     print("3. Get weather for random location")
     print("4. Exit program")
-    print("Select an option by entering a number between 1-3\n")
+    print("Select an option by entering a number between 1-4\n")
 
     while True:
         choice = input("Enter your choice here: \n").strip()
