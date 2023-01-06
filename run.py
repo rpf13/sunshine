@@ -356,9 +356,10 @@ def get_historical_weather():
     while True:
         hist_date = input(
             "For which date you would like to get the weather? \n"
+            "Historical weather is available for the last 50 years \n"
             "Enter the date in the format YYYY-MM-DD \n"
             ).strip()
-        if verify_date.verify(hist_date):
+        if verify_date.is_valid(hist_date):
             break
         else:
             print("Invalid input, enter a valid date")
