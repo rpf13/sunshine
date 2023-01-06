@@ -18,6 +18,23 @@ def clear_screen():
     os.system("cls" if os.name == "nt" else "clear")
 
 
+# Function to validate user input
+def ask_input(question, options):
+    """
+    This function is generic and validates the user input.
+    The question to display is one argument
+    The answer is another argument, an array is expected
+    If user inputs anything else than the expected answer,
+    he will be prompted again.
+    """
+    answer = input(question).upper().strip()
+    if answer in options:
+        return answer
+    else:
+        print(f"Please input {'/'.join(options)} only!")
+        return ask_input(question, options)
+
+
 # The following functions will validate the user input required
 # to get the geodata from OSM (Open Street Map) for a specific place
 def validate_input(string):
@@ -128,9 +145,7 @@ def get_location():
     # Ask user to confirm if town fetched via geopy is correct. If not
     # ask for country. Validate also user input (Y or N)
 
-    confirm = input("Can you confirm? Y/N \n").upper().strip()
-    while confirm != "Y" and confirm != "N":
-        confirm = input("Type either Y or N! \n").upper().strip()
+    confirm = ask_input("Can you confirm? Y/N \n", ["Y", "N"])
     if confirm == "Y":
         pass
     elif confirm == "N":
@@ -157,9 +172,7 @@ def get_location():
 
         # Ask user again to confirm if town / country fetched via geopy is
         # correct. If not ask for ZIP code. Validate also user input (Y or N)
-        confirm = input("Can you confirm? Y/N \n").upper().strip()
-        while confirm != "Y" and confirm != "N":
-            confirm = input("Type either Y or N! \n").upper().strip()
+        confirm = ask_input("Can you confirm? Y/N \n", ["Y", "N"])
         if confirm == "Y":
             pass
         elif confirm == "N":
@@ -328,16 +341,11 @@ def live_weather_loop():
     while True:
         clear_screen()
         get_live_weather()
-        answer = input(
-            "Do you want to get the weather for another location? Y/N \n"
-        ).upper().strip()
+        answer = ask_input(
+            "Do you want to get the weather for another location? Y/N \n",
+            ["Y", "N"])
         if answer == "N":
-            main()
-            break
-        elif answer == "Y":
-            continue
-        else:
-            print("Please input either Y or N.")
+            return
 
 
 # Function to get historical weather from related resources
@@ -425,16 +433,11 @@ def historical_weather_loop():
     while True:
         clear_screen()
         get_historical_weather()
-        answer = input(
-            "Do you want to get the weather for another location? Y/N \n"
-        ).upper().strip()
+        answer = ask_input(
+            "Do you want to get the weather for another location? Y/N \n",
+            ["Y", "N"])
         if answer == "N":
-            main()
-            break
-        elif answer == "Y":
-            continue
-        else:
-            print("Please input either Y or N.")
+            return
 
 
 # Main function to control the tool, display menu to user
@@ -445,21 +448,34 @@ def main():
     It will request the user to enter the number for one of the
     given options. Error handling of input is done.
     """
-    clear_screen()
-    print(pyfiglet.figlet_format(
-        "Sunshine", font="standard", justify="center"
-        ))
-    print(pyfiglet.figlet_format(
-        "A simple terminal based weather app",
-        font="contessa", justify="center"
-        ))
-    print("1. Get live weather data")
-    print("2. Get historical weather data")
-    print("3. Get weather for random location")
-    print("4. Exit program")
-    print("Select an option by entering a number between 1-4\n")
+    # clear_screen()
+    # print(pyfiglet.figlet_format(
+    #     "Sunshine", font="standard", justify="center"
+    #     ))
+    # print(pyfiglet.figlet_format(
+    #     "A simple terminal based weather app",
+    #     font="contessa", justify="center"
+    #     ))
+    # print("1. Get live weather data")
+    # print("2. Get historical weather data")
+    # print("3. Get weather for random location")
+    # print("4. Exit program")
+    # print("Select an option by entering a number between 1-4\n")
 
     while True:
+        clear_screen()
+        print(pyfiglet.figlet_format(
+            "Sunshine", font="standard", justify="center"
+            ))
+        print(pyfiglet.figlet_format(
+            "A simple terminal based weather app",
+            font="contessa", justify="center"
+            ))
+        print("1. Get live weather data")
+        print("2. Get historical weather data")
+        print("3. Get weather for random location")
+        print("4. Exit program")
+        print("Select an option by entering a number between 1-4\n")
         choice = input("Enter your choice here: \n").strip()
         if choice == "1":
             live_weather_loop()
