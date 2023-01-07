@@ -160,7 +160,24 @@ The main goal of this app was to show and improve my Python skills. The deployme
 ---
 
 ## Tools & Technologies Used
+I used the following technologies and resources to create this site:
 
+- [Git](https://git-scm.com)
+    - Git has been used as the CLI version control tool
+- [Github](https://github.com)
+    - Github has been used to store the code and publish the site via Github Pages
+- [Gitpod](https://gitpod.io/)
+    - Gitpod has been used as the local IDE environment
+- [Techsini](http://techsini.com/multi-mockup/index.php)
+    - Techsini has been used to show an image of the site on various devices
+- [OpenStreetMap Geopy Nominatim](https://nominatim.openstreetmap.org/ui/about.html)
+    - The OSM Geopy Nominatim API has been used to get the geolocation, via the geopy python package
+- [Open Meteo API](https://open-meteo.com/)
+    - The Open Meteo API has been used to get all the weather information
+- [Markdown Builder](https://traveltimn.github.io/readme-builder)
+    - The Markdown Builder by Tim Nelson has been used to help generate the README files
+- [Python](https://www.python.org) 
+    - Python has been used as the main programming language.
 
 ---
 
