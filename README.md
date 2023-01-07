@@ -178,15 +178,175 @@ I used the following technologies and resources to create this site:
     - The Markdown Builder by Tim Nelson has been used to help generate the README files
 - [Python](https://www.python.org) 
     - Python has been used as the main programming language.
+- [Draw.io](https://app.diagrams.net)
+    - Draw.io has been used to create the flowchart and export it as png
 
 ---
 
 ## Data Model
 
 ### Logical Flowchart
-The following flowchart displays the logic behind the app, it should be seen as kind of "wireframe", which I have used to have a rough estimate and structure, while building the code for it.
+The following flowchart displays the logic behind the app, it should be seen as kind of "wireframe", which I have used to have a rough estimate and structure, while building the code for the application.
 
 ![Flowchart](docs/flowchart/sunshine_flowchart.drawio.png)
+
+### Classes, their Methods & Functions
+
+This chapter will give a brief explanation on the classes their related methods and the functions, used in the code.
+I have created two classes for code, which I re-usable and to me, is a perfect place to live in a class.
+
+#### The MeteoDataCall Class
+This class contains two methods; the `live_data()` and the `historical_data()` method. The class itself takes one argument, when called - the coordinates, which is actually an array with two elements, the latitude [0] and the lingitude [1]. Since both methods needs the coordinates as input, it has been specified at the class level.
+The `live_data()` method, does not require additional paramters, when called. The main purpose of this method is, to execute the api call to the open-meteo api. The url string for the api call is statically set as variable, but taking the coordinates array elemtens via string interpolation.
+It uses the requests library to make a GET request to the open-meteo.com API with the given location. The raise_for_status method is called on the response object to raise an exception if the API returns a non-successful
+status code.
+
+The fetch_data method is wrapped in a try block, and any HTTPError exceptions that are raised during the requestare caught in the except block.
+The return value of the api is a json, which will be further processed as the return value.
+If an exception gets raised, the program gets **intentionally** terminated, because it does not make sense tocontinue the program, if the API has a problem.
+If there is a HTTP error, not getting code 200 back from the API, the status code is displayed to the user. Forall the other, unknow errors, no error details are displayed.
+The `historical_data()` method works the same way as the previously explained `live_data()` method, with the onlydifference, that it needs an additional argument, when called. It requires the date, for which the user wants toget the historical weather info. 
+The url for the API call uses again the coordinates array values and, as explained, the historical date. The restof the method is the same.
+
+
+<details>
+<summary>MeteoDataCall Class Code</summary>
+
+```python
+class MeteoDataCall:
+    """
+    Class to execute api call for live and historical
+    weather on open-meteo.com. Error handling done at
+    this stage.
+    """
+    def __init__(self, coordinates):
+        # instance attributes
+        self.coordinates = coordinates
+
+    def live_data(self):
+        """
+        Method to call API for live data and return json
+        If call is unsuccessful, start exception handling.
+        """
+        url = f"https://api.open-meteo.com/v1/forecast?latitude={self.coordinates[0]}&longitude={self.coordinates[1]}&current_weather=true&windspeed_unit=kmh"  # noqa
+        # Create the actual api call. If the request is successful,
+        # the raise_for_status() method is called to check for any HTTP errors,
+        # such as a 4xx or 5xx status code.
+        # If no errors are found, the JSON response is returned.
+        try:
+            response = requests.get(url)
+            response.raise_for_status()
+            return response.json()
+        # Handle known HTTP error and exit
+        except requests.exceptions.HTTPError as error:
+            sys.exit(
+                "An error has occured when calling the Open-Weather API \n"
+                "Unfortunately we cannot get the weather data now. \n"
+                "Please try again later! \n"
+                "Error details: {}".format(error)
+                )
+        # Handle any unknown API error and exit
+        except Exception as error:
+            sys.exit(
+                f"There was an undefined error with the Open-Weather API \n"
+                "Please try again later"
+                f"Error details: {error}"
+                )
+
+    def historical_data(self, hist_date):
+        """
+        Method to call API for historical data and return json
+        If call is unsuccessful, start exception handling.
+        """
+        self.hist_date = hist_date
+        url = f"https://archive-api.open-meteo.com/v1/era5?latitude={self.coordinates[0]}&longitude={self.coordinates[1]}&start_date={self.hist_date}&end_date={self.hist_date}&daily=weathercode,temperature_2m_max,windspeed_10m_max&timezone=auto"  # noqa
+        # Create the actual api call. If the request is successful,
+        # the raise_for_status() method is called to check for any HTTP errors,
+        # such as a 4xx or 5xx status code.
+        # If no errors are found, the JSON response is returned.
+        try:
+            response = requests.get(url)
+            response.raise_for_status()
+            return response.json()
+        # Handle known HTTP error and exit
+        except requests.exceptions.HTTPError as error:
+            sys.exit(
+                "An error has occured when calling the Open-Weather API \n"
+                "Unfortunately we cannot get the weather data now. \n"
+                "Please try again later! \n"
+                "Error details: {}".format(error)
+                )
+        # Handle any unknown API error and exit
+        except Exception as error:
+            sys.exit(
+                f"There was an undefined error with the Open-Weather API \n"
+                "Please try again later"
+                f"Error details: {error}"
+                )
+```
+
+</details>
+
+#### The DateInputVerifier Class
+This class is used for the historical weather feature and is used to verfiy if the date input is valid and according to the requirements. The class itself does not require any arguments and it has the basic date syntax stored in the pattern variable. This simple regex checks only the amount of digits and the required hyphen.
+The `is_valid()` method takes the date as an input parameter. A conditional sequence starts, first of all is the check of the input against the pattern - the regex. If that is passed, it will split the input at the hyphen and allocate the variables year, month, day to it.
+The month get's checked if it is valid, only integers between 1 and 12 are valid.
+The day gets checked if it si valid, only integers between 1 and 31 are valid.
+The year gets checked, if it is max. 50 years back from the current year. This requirement comes from the weather api, which has limited historical data.
+If any of the checks result invalid, False will be returned, otherwise True. This info will the be further process in the calling function.
+
+
+<details>
+<summary>DateInputVerifier Class Code</summary>
+
+```python
+class DateInputVerifier:
+    """
+    Date verification class, used to verify user input. It checks
+    if input is valid in terms of month, day numbers and it
+    checks if year is max. 50 years back, since open-weather API
+    does not support endless historical data
+    """
+    def __init__(self):
+        self.pattern = r"^\d{4}-\d{2}-\d{2}$"
+
+    def is_valid(self, date):
+        """
+        Verify that the input string matches the
+        desired time format (YYYY-MM-DD) and is valid
+        Returns boolean value used further in the calling part
+        """
+        # Check if the date matches the pattern
+        if not re.match(self.pattern, date):
+            return False
+
+        # Split the date into year, month, and day
+        year, month, day = date.split("-")
+        year, month, day = int(year), int(month), int(day)
+
+        # Check if the month is within the range of 1-12
+        if month < 1 or month > 12:
+            return False
+
+        # Check if the day is within the range of 1-31
+        if day < 1 or day > 31:
+            return False
+
+        # Check if the year is within the range of 50 years back in time
+        current_year = datetime.datetime.now().year
+        if year > current_year or year < current_year - 50:
+            return False
+
+        # If all checks pass, return True
+        return True
+```
+
+</details>
+
+
+#### Classes
+
+
 
 ---
 
