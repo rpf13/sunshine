@@ -32,11 +32,6 @@ The following stretch objectivse are meant as a "nice to have" feature and depen
 - offline data should provide an alternate solution, if either geopy or the weather API is down
 - implement a random city feature, intended for users who are curious about weather conditions anywhere in the world, without specifying a place.
 
-### Logical Flowchart
-The following flowchart displays the logic behind the app, it should be seen as kind of "wireframe", which I have used to have a rough estimate and structure, while building the code for it.
-
-![Flowchart](docs/flowchart/sunshine_flowchart.drawio.png)
-
 ## UX & Design
 This site is a pure terminal based CLI app, which has limited browser support and runs in a default terminal window size of 80 columns by 24 rows.
 
@@ -66,7 +61,7 @@ The main goal of this app was to show and improve my Python skills. The deployme
 
     ![Main Menu](docs/testing/00_main_menu.png)
 
-- Live weather data
+- Live weather data (Menu Item 1)
     - The first feature out of the main menu is live weather data.
     - The user get's prompted to enter a town, for which he wants live weather data.
     
@@ -108,9 +103,75 @@ The main goal of this app was to show and improve my Python skills. The deployme
         ![Live Weather Accept Proposal](docs/testing/01_live_accept_proposal.png)
 
     - If the user decides to not check another location for live weather and answer the question with "N", he will be sent back to the main menu.
+    - In all the confirmation questions, if the user enters a invalid input, not entering y / n, the error is caught and he will be repeteadely asked.
+
+        ![Error Handling Confirmation Questions](docs/testing/99_confirmation_error_handling.png)
+
+    - The address input is validated for correct and valid input. The same applies for the country and postal code / zip input. 
+    - For postalcode / zip and country input, the [postal code format](https://kb.bullseyelocations.com/article/93-postal-code-formats) and [list countries](https://www.worldometers.info/geography/alphabetical-list-of-countries/) have been considered.
+    - Wrong inputs will relate to a message prompted and the user gets asked again.
+
+        ![Input Verification & Error Handling](docs/testing/99_input_error_handling.png)
+
+- Historical Weather Data (Menu Item 2)
+    - The second feature of the main moneu is the historical weather data.
+    - The user is prompted to enter a historical data, for which he wants to see the weather. The weather database is limited in historical data, therefore the user is able to ask back 50 years.
+    - The input format is specified
+
+    ![Historical Weather Date Input](docs/testing/02_hist_date.png)
+
+    - The subsequent questions / features are the same as for the live weather with the only exception, that the wording of the answers is in "the past".
+    - The decision tree itself is the same
+
+    ![Historical Weather Final Result](docs/testing/02_hist_final_result.png)
+
+    - If the user enters an invalid date format or a date, which is more than 50 years in past, he will get an error and will be repeatedly asked to enter a valid date.
+
+    ![Historical Weather Date Error](docs/testing/99_date_error_handling.png)
+
+- Weather for Random Location (Menu Item 3)
+    - This feature is not implemented yet, however, since planned I left it on the main menu
+    - If a user enters the option 3 for the weather of a random location, he will get a text displayed, saying that the feature is not implemented yet.
+    - The user will be informed, that he well be automatically redirected to the main menu
+
+    ![Radonm Weather](docs/testing/03_random_weather.png)
+
+- Exit Program (Menu Item 4)
+    - This feature will gracefully end the program.
+    - The user gets a goodbye message displayed
+
+    ![Exit Program](docs/testing/04_exit_program.png)
+
+- Start / Restart Program
+    - If the user has gracefully exit'ed the program or his browser did run in timeout, he can start the program via the "RUN PROGRAM" button above the terminal.
+
+    ![Run Program Button](docs/testing/00_run_program.png)
+
+     
+### Future Features
+
+- The Weather for Random Location (Menu Item 4) will be implemented
+    - To implement this, the [Geonamescache Package](https://pypi.org/project/geonamescache/) will be used
+    - The geonamescache provides various functions, the `get_cities()` function will be used and further processed, to get a random city name.
+- Offline City geo-database for all capitals in the world.
+    - This feature would be implemented in the way that, for whatever reason the Geopy Open StreetMap Nominatim database would not be available or a user has stressed their API and "violated" the [Usage Policy](https://operations.osmfoundation.org/policies/nominatim/)
+    - This feature would store the geoinfo for all the capitals in a database, or a google spreadsheet and will then be used for the API call of the weather database.
+
+---
+
+## Tools & Technologies Used
 
 
+---
 
+## Data Model
+
+### Logical Flowchart
+The following flowchart displays the logic behind the app, it should be seen as kind of "wireframe", which I have used to have a rough estimate and structure, while building the code for it.
+
+![Flowchart](docs/flowchart/sunshine_flowchart.drawio.png)
+
+---
 
 ## Development
 
