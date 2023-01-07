@@ -37,14 +37,13 @@ class MeteoDataCall:
                 "An error has occured when calling the Open-Weather API \n"
                 "Unfortunately we cannot get the weather data now. \n"
                 "Please try again later! \n"
-                "Error details: {}".format(error)
+                "The API has returned the status code: {}".format(error)
                 )
         # Handle any unknown API error and exit
         except Exception as error:
             sys.exit(
                 f"There was an undefined error with the Open-Weather API \n"
                 "Please try again later"
-                f"Error details: {error}"
                 )
 
     def historical_data(self, hist_date):
@@ -68,14 +67,13 @@ class MeteoDataCall:
                 "An error has occured when calling the Open-Weather API \n"
                 "Unfortunately we cannot get the weather data now. \n"
                 "Please try again later! \n"
-                "Error details: {}".format(error)
+                "The API has returned the status code: {}".format(error)
                 )
         # Handle any unknown API error and exit
         except Exception as error:
             sys.exit(
                 f"There was an undefined error with the Open-Weather API \n"
                 "Please try again later"
-                f"Error details: {error}"
                 )
 
 
