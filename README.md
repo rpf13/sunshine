@@ -505,3 +505,24 @@ You can fork this repository by using the following steps:
 3. Once clicked, you should now have a copy of the original repository in your own GitHub account!
 
 
+## Credits
+
+### Code & Methodology
+
+I had to do quite some research for this project, especially calling the two API's and the proper error handling has been a challenge. I have used many resources in order to understnad the related concept and then further use it in my project.
+
+The following list of sources has been used:
+
+| Source | Notes |
+| --- | --- |
+| [Markdown Builder by Tim Nelson](https://traveltimn.github.io/readme-builder) | tool to help generate the Markdown files for README and TESTING |
+| [Chris Beams](https://chris.beams.io/posts/git-commit) | "How to Write a Git Commit Message" |
+| [GeekforGeeks](https://www.geeksforgeeks.org) | This was my main goto site to look up any python related questin I had |
+| [YouTube](https://youtu.be/LC1-VD2eeR0) | This tutorial "Fetch lyrics from an API and parse the JSON response" has helped me to understand how to create a GET request and parse the returning JSON |
+| [PyPi geopy Documentation](https://pypi.org/project/geopy/) | The official documention of geopy has helped me to understand the package and it's capabilities |
+| [Stackexchange](https://gis.stackexchange.com/questions/293615/user-agent-argument-in-nominatim-in-geopy) | This answer has helped to understand why I need a User_Agent argument in the geopy call |
+| [AskPython](https://www.askpython.com/python/python-geopy-to-find-geocode-of-an-address) | This article was a big help to understand how to use geopy and get the desired results |
+| [Nominatim.org](https://nominatim.org/release-docs/develop/api/Search/) | The official Nominatim documentation has teached me how to use search arguments in order to search for location, country, postalcode |
+| [OSM Foundation](https://operations.osmfoundation.org/policies/nominatim/) | This article was a big help to find out the limitations of the free Nominatim API service. It helped me to troubleshoot, when I got errors from the API, while I was repeatedly querying for the same location. |
+| [Pypi geonamescache Documentation](https://pypi.org/project/geonamescache/) | This article has helped me to understnad, how to get a random location name, which will be part in the stretch - further features, implementation of getting the weather from a random location. |
+| [CodeSpeedy](https://www.codespeedy.com/select-a-random-element-from-a-tuple-in-python/) | This article has helped me to understand how to select a random element from a tuple, which I would need to implement in the stretch - further features, implementation of getting the weather from a random location. |
