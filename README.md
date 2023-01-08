@@ -396,7 +396,11 @@ I've used the following Python packages and/or external imported packages.
 - `datetime` is used for the date verification class, to get the current year [datetime](https://pypi.org/project/datetime2/)
 - `MeteoDataCall`, `DateInputVerifier`, `my_emoji` are my own classes, files, which have been imported.
 
+---
 
+## Testing
+
+For all testing, please refer to the [TESTING.md](TESTING.md) file.
 
 ---
 
