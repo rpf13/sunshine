@@ -344,7 +344,57 @@ class DateInputVerifier:
 </details>
 
 
-#### Classes
+#### Functions
+
+The following is a list of functions, used in this project. A brief explanation is given regarding their functionality. A more detailed description of each function can be found in the code itself in form of comments.
+
+- `clear_screen()`
+    - As the name sais, it will clear the screen. It uses the os.system module.
+- `ask_input(question, options)`
+    - This generic function is used to create the "ask input loop", if a user has to enter Y or N. However, the function is generic and could be used for any other input questions, since the question and the answers (named as options), are input parameters.
+- `validate_input(string)`
+    - Validates the input for town and country names and checks for valid syntax
+- `validate_address()`
+    - Ask's for the town and calls the `validate_input` to validate input
+- `validate_country()`
+    - Same logic as the `validate_address()`, but ask's for a country
+- `validate_zip_input(string)`
+    - Postal code / zip validation for proper syntax
+- `validate_postalcode()`
+    - Ask's for the postal / zip code and calls the `validate_zip_input()` to validate it
+- `get_location()`
+    - This is one of the two "API functions". It is responsible to get the coordinates via geopy OSM Nominatim API (via the geopy package). It returns an array with latitude, longitude. It calls the previously mentioned validation functions to verify user input. There are several try / except blocks, to do proper error handling at each individual step.
+- `translate_weathercode(weathercode)`
+    This function takes the weathercode, which we get via the `MeteoDataCall` class, and translates it to a human readable text string. It returns the string via the weathercondition variable.
+- `get_live_weather()`
+    - This function is the "main driver" for the live weather feature. It calls all necessary classes, methods and functions and correlates them together. It **intentionally** uses a "hard" sys.exit, if no geoinfo could be fetched via the geopy API. It does not make sense to continue the program, if there is no geoinfo. It does further error checking for each other level. It "stitches" the weathercode with the emoji's together (called via dedicated CONDITIONS constant, which is a hash). It uses the text string of the weathercode and replaces any whitespaces with underline to find then the related key in the hash.
+- `live_weather_loop()`
+    - This function is the loop to repeatedly ask the user if he wants to get the live weatehr for another location. It calls the `ask_input()` function to validate the input.
+- `get_historical_weather()`
+    - This function is the "main driver" for the historical weather feature. It calls all necessary classes, methods and functions and correlates them together. Unlike the `get_live_weather()` function, it starts with asking the user for a date as input, which get's verified via the `DateInputVerifier()` class and it's related method. The rest of the function follows the same concept as the `get_live_weather()` function, it does also **intentionally** uses a "hard" sys.exit,
+- `historical_weather_loop()`
+    - counterpart to the `live_weather_loop()`, but for the historical weather.
+- `main()`
+    - This is the main driver for the whole program, a while loop to display the menu and verfies the user input. It uses the pyfiglet paket to display the welcoming header.
+
+#### Other Python Files
+
+The program contains the my_emoji.py file, which contains a constant called `CONDITIONS`, which is a hash with it's keys matching the weathercondition strings and allocate each of them a related emoji. The emoji's are standard unicode elements.
+
+### Imports
+
+I've used the following Python packages and/or external imported packages.
+
+- `geopy` geocoding package used for OSM [geopy](https://pypi.org/project/geopy/)
+- `Nominatim` as part of the geopy packate, the [Open Street Map](https://nominatim.org) geocoding API Service
+- `os`used for adding `clear()` function [os](https://pypi.org/project/os0/)
+- `pyfiglet` used for the ascii text to render it into ascii art font [pyfiglet](https://github.com/pwaller/pyfiglet)
+- `time` used for sleep feature in the `main()` function
+- `sys` is used for the proper way to exit the program
+- `re` has been used for all the regular expressions
+- `requests` has been used to execute the api calls [requests](https://pypi.org/project/requests/)
+- `datetime` is used for the date verification class, to get the current year [datetime](https://pypi.org/project/datetime2/)
+- `MeteoDataCall`, `DateInputVerifier`, `my_emoji` are my own classes, files, which have been imported.
 
 
 
