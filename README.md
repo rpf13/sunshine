@@ -156,6 +156,8 @@ The main goal of this app was to show and improve my Python skills. The deployme
 - Offline City geo-database for all capitals in the world.
     - This feature would be implemented in the way that, for whatever reason the Geopy Open StreetMap Nominatim database would not be available or a user has stressed their API and "violated" the [Usage Policy](https://operations.osmfoundation.org/policies/nominatim/)
     - This feature would store the geoinfo for all the capitals in a database, or a google spreadsheet and will then be used for the API call of the weather database.
+- Refactoring the code
+    - The current code has much potential to be refactored to implement the DRY (Don't Repeat Yourself) paradigm. As part of future features, refactoring should be among them.
 
 ---
 
@@ -178,6 +180,8 @@ I used the following technologies and resources to create this site:
     - The Markdown Builder by Tim Nelson has been used to help generate the README files
 - [Python](https://www.python.org) 
     - Python has been used as the main programming language.
+- [CI Python Linter](https://pep8ci.herokuapp.com)
+    - The Code Institute Pythin Linter has been used to verify the code, in addition to the alredy embedded code validator on Gitpod via the CI Python Project Template.
 - [Draw.io](https://app.diagrams.net)
     - Draw.io has been used to create the flowchart and export it as png
 
@@ -405,11 +409,35 @@ For all testing, please refer to the [TESTING.md](TESTING.md) file.
 ---
 
 ## Development
+The following chapters will give some insights on my thinking process and why I have decided to use things the way they are.
 
-### Challenges & Important Notes
+### Limitations
+During deployment / testing of the app (see [TESTING.md](TESTING.md)), I have figured out, that browser support for this way of running the terminal app in the browser is not the best. It runs only flawlessly in the Chrome browser. Safari does not work at all and in Firefox, the emoji's are cut in half, see open bug / limitation for it [#2](https://github.com/rpf13/sunshine/issues/2)
 
-I did take great attention and big efforts on the error handling. Since I am using two API's, this was quite a challenge.
+### Challenges 
+This project was a big, but very welcomed challange to me. I LOVED IT and I have figured out, that I really like Python!
+I did not want to build another "Hangman, Battleship, ..." game, which many students go for at this point for their Project Portfolio 3 work. A working colleague told me: "Why don't you create a cli based weather app", an I fell in love with the idea.
+Since we did not yet cover API's (except the basic Google Spreadsheet API), I really had to get to know on how this is done. The open-weather API is a relatively easy one, since it does not require authentication.
 
+I did also set myself the goal to use self created classes, use additional modules. Classes are a great concept in coding to limit repetition and rather create "generic build plans", to instantiate when needed.
+
+I also wanted to showcase my basic regex knowledge and this was the reason I have used it at some parts. Well, how else to verify input? Regex is the easiest way.
+
+One of the biggest challenges was to understand the geopy package - the Nominatim OpenStreetMap api. I did face quite some challanges, since I did not entirely read the documentation and the limitations / usage policy upfront. This brought me to implement some better error handling.
+
+### Error Handling
+I did take great attention and big efforts on the error handling. Since I am using two API's, this was quite a challenge. I have tried to do extensive error handling in order to prevent the application to fail and just diplay errors to the user. I did also **intentionally** use the sys.exit on a few places, which would exit the user from the program if a certain condition is met (in combination with displaying a reason). If the geopy API does not return a result, or the API call to the open-weather API fails, there is not reason to continue the program. I am strongly convinced, it is the right decision to exit the program in such a case.
+
+I have tried to cover every possible error or using a generic error handling via the try / except blocks to prevent a bad experiense. In combination with the many while loops and user inputs, it was a big challenge. This was also the main reason, why I did create the dedicated `ask_input()` function, which outsources the check of the correct input - given a choice like Y / N. The way I wrote code did not work when having this check inside the related function.
+Anyway, it is great to have such a repetitive task in a generic, dedicated function.
+
+As mentioned, I did my best to catch all possible errors, however, it is difficult to simulate all possible errors when using an API. Therefore I have tried to catch them with the generic error handling in the try / except blocks.
+
+With all the error handling in place, if a user wants to intetionally break the app, it is still possible. But, this was not the aim to prevent that. The error handling should be in place to cover accidently wrong input or if an API is not available.
+
+### Refactoring
+
+When I look at the code, I know there is a big potential to do refactoring and create more generic functions, which then get called with the related parameters. I am aware of the fact that I did not entierly follow the DRY (Don't Repeat Yourself) principle. However, at a certain point in time I had to find an end for the project, given the time constraints. 
 
 ### Commit messages
 
@@ -526,3 +554,14 @@ The following list of sources has been used:
 | [OSM Foundation](https://operations.osmfoundation.org/policies/nominatim/) | This article was a big help to find out the limitations of the free Nominatim API service. It helped me to troubleshoot, when I got errors from the API, while I was repeatedly querying for the same location. |
 | [Pypi geonamescache Documentation](https://pypi.org/project/geonamescache/) | This article has helped me to understnad, how to get a random location name, which will be part in the stretch - further features, implementation of getting the weather from a random location. |
 | [CodeSpeedy](https://www.codespeedy.com/select-a-random-element-from-a-tuple-in-python/) | This article has helped me to understand how to select a random element from a tuple, which I would need to implement in the stretch - further features, implementation of getting the weather from a random location. |
+| [GeekforGeeks](https://www.geeksforgeeks.org/python-ascii-art-using-pyfiglet-module/) | This tutorial has been used to implement the pyfiglet ASCII art for the intro title |
+| [Figlet](http://www.figlet.org/examples.html) | Figlet has helped me to choose one of the available fonts |
+| [RealPython](https://realpython.com/python-sleep/) | Article helping me to understand sleep() function |
+| [GeekforGeeks](https://www.geeksforgeeks.org/python-exit-commands-quit-exit-sys-exit-and-os-_exit/) | Great article on teaching me the right way of using an exit in a program and compare the various options.
+
+### Acknowledgements
+- A very big Thank You goes to my mentor Tim Nelso, who critically checked my application and helped in so many ways. Tim, you are an awesome inspiration, I cannot thank you enough!
+- A huge thank you goes to my working colleagu Hans Heisig, who brought me up to the initial idea: "Hey, why don't you create a CLI weather app?". I thank you a lot for bringing up this idea, which I have liked from the beginning. However, it was a very challenging journey. I am very thankful for the time you did invest to "intentionally break" my application and gave me great advice regarding error handling. You are an awesome, helpful person - Thank You!
+- Without the support of my wife and my little son, it would not have been possible to spend endless hours, working on this project and doing research. Many thanks to my little son for giving me a smile and very welcomed distraction, during times I was frustrated.
+- Thanks to all the friends and co workers, who have tested out the application - and have tried to find the sunshine...
+
