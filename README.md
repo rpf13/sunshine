@@ -105,16 +105,7 @@ The main goal of this app was to show and improve my Python skills. The deployme
         ![Live Weather Accept Proposal](docs/testing/01_live_accept_proposal.png)
 
     - If the user decides to not check another location for live weather and answer the question with "N", he will be sent back to the main menu.
-    - In all the confirmation questions, if the user enters a invalid input, not entering y / n, the error is caught and he will be repeteadely asked.
-
-        ![Error Handling Confirmation Questions](docs/testing/99_confirmation_error_handling.png)
-
-    - The address input is validated for correct and valid input. The same applies for the country and postal code / zip input. 
-    - For postalcode / zip and country input, the [postal code format](https://kb.bullseyelocations.com/article/93-postal-code-formats) and [list countries](https://www.worldometers.info/geography/alphabetical-list-of-countries/) have been considered.
-    - Wrong inputs will relate to a message prompted and the user gets asked again.
-
-        ![Input Verification & Error Handling](docs/testing/99_input_error_handling.png)
-
+    
 - Historical Weather Data (Menu Item 2)
     - The second feature of the main moneu is the historical weather data.
     - The user is prompted to enter a historical data, for which he wants to see the weather. The weather database is limited in historical data, therefore the user is able to ask back 50 years.
@@ -127,9 +118,6 @@ The main goal of this app was to show and improve my Python skills. The deployme
 
     ![Historical Weather Final Result](docs/testing/02_hist_final_result.png)
 
-    - If the user enters an invalid date format or a date, which is more than 50 years in past, he will get an error and will be repeatedly asked to enter a valid date.
-
-    ![Historical Weather Date Error](docs/testing/99_date_error_handling.png)
 
 - Weather for Random Location (Menu Item 3)
     - This feature is not implemented yet, however, since planned I left it on the main menu
