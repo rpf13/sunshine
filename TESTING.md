@@ -169,7 +169,6 @@ While creating this project, I did heavily depend on using / inserting `breakpoi
 As an example how I used it, I wanted to verify the content of the weathercode, weatherdata variable, so I have set a breakpoint in the following code
 
 ```py
-
 def translate_weathercode():
     """
     Function to translate the weathercode into a human readable code
@@ -178,7 +177,6 @@ def translate_weathercode():
     weathercode = weatherdata["current_weather"]["weathercode"]
     breakpoint()
     if weathercode == 0:
-
 ```
 
 I could easily check the content and with the “embedded” navigation options in Pbd, I could go ahead.
@@ -192,7 +190,6 @@ s -> step to next line in this function or a called function
 
 Here an example of how I used it when setting a `breakpoint()` in above's mentioned code:
 ```py
-
 gitpod /workspace/sunshine (main) $ python3 run.py 
 {'latitude': 46.2, 'longitude': 6.14, 'generationtime_ms': 0.28693675994873047, 'utc_offset_seconds': 0, 'timezone': 'GMT', 'timezone_abbreviation': 'GMT', 'elevation': 400.0, 'current_weather': {'temperature': 11.2, 'windspeed': 13.0, 'winddirection': 236.0, 'weathercode': 61, 'time': '2022-12-30T15:00'}}
 61
@@ -209,18 +206,19 @@ gitpod /workspace/sunshine (main) $ python3 run.py
 
 ---
 
-## Bugs
+## Bugs - Github Issues
+I have used Github Issues to track bugs. I did only open a bug, if I could not immediately find a solutior or I did consider it a bigger issue. I did not consider "issues during development" as a bug. This is the reason, why I do not have to show a lot in this section.
+However, all documentation on details of an issue as well as the path to resolve it, is documented in the issues section of the repo via my [Github](https://github.com/rpf13/sunshine/issues) account.
 
-### Open Bugs
+**Issues Table**
 
-### Closed Bugs
+The whole Github Issues section for my project can be accessed [here](https://github.com/rpf13/sunshine/issues). The following table will give an overview:
+
+| Bug | Github Link | Status |
+| --- | --- | --- |
+| Firefox shows emoji's cut by half | [Issue #2](https://github.com/rpf13/sunshine/issues/2) | Open |
+| Geopy error if API stressed out | [Issue #1](https://github.com/rpf13/sunshine/issues/1) | Closed |
+
+There are no other remaining bugs, I am aware of.
 
 
-
-
-
-
-
-    TODO: Add comment on limitations / browser support
-
-    TODO: Add separate chapter on how I have used breakpoint() to tshoot inline
