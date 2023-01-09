@@ -4,6 +4,8 @@ It should be a fun way to get real time weather information, using the Free Weat
 
 ![Techsini Screenshot](docs/testing/techsini.png)
 
+Use the following link to access the [ deployed project on Heroku](https://sunshine-rpf13.herokuapp.com/)
+
 ---
 
 ## Objectives
