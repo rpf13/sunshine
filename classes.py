@@ -77,8 +77,8 @@ class MeteoDataCall:
                 )
 
 
-# Class to verify if the date input for the historical option
-# is valid or not.
+# Class to verify, if the date input for the historical weather
+# option is valid or not.
 class DateInputVerifier:
     """
     Date verification class, used to verify user input. It checks
@@ -87,6 +87,7 @@ class DateInputVerifier:
     does not support endless historical data
     """
     def __init__(self):
+        # Instance attribute
         self.pattern = r"^\d{4}-\d{2}-\d{2}$"
 
     def is_valid(self, date):

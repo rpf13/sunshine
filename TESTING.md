@@ -115,7 +115,7 @@ Since these type of errors are handled "externally" via dedicated function or ev
 The following "test-errors" have been executed in gitpod, because I did not want to deploy the wrong error code and it was much simpler to test in gitpod.
 
 
-- The following test is a simulation, if for any reason, the geopy API returns wront, invalid coordinates. Thetest has been done in the live weather option, via replacing the geopy function call via a static array with dummygeolocation data. The error get's correctly caught and in this particular case, es previously explained, the APIerror gets displayed to the user. A sys.exit happens and the user get's told that there is an API problem.
+- The following test is a simulation, if for any reason, the geopy API returns wrong, invalid coordinates. The test has been done in the live weather option, via replacing the geopy function call with a static array with dummy geolocation data. The error get's correctly caught and in this particular case, es previously explained, the API error gets displayed to the user. A sys.exit happens and the user get's told that there is an API problem.
     ```py
     # coordinates = get_location() -> This would be the correct function call
     coordinates = ['ada', 'beda']
