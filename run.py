@@ -460,7 +460,7 @@ def main():
         print("3. Get weather for random location")
         print("4. Exit program")
         print("Select an option by entering a number between 1-4\n")
-        choice = input("Enter your choice here: \n").strip()
+        choice = ask_input("Enter your choice here: \n", ["1", "2", "3", "4"])
         if choice == "1":
             live_weather_loop()
         elif choice == "2":
@@ -474,9 +474,6 @@ def main():
             main()
         elif choice == "4":
             sys.exit("GoodBye - Have a sunny day!")
-        else:
-            print("Invalid input, enter a number between 1 and 4")
-            continue
 
 
 # Boilerplate to make sure, methods are only called automatically,
