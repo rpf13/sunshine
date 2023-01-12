@@ -219,6 +219,9 @@ def translate_weathercode(weathercode):
     Function to translate the received WMO weathercode into
     a human readable code, using the translation table on
     open-meteo.com api reference.
+    Originally I wanted to create a match case but
+    unfortunately the gitpo python version does not support
+    it (needs 3.10)
     """
     weathercode = weathercode
     if weathercode == 0:

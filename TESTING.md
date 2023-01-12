@@ -31,9 +31,9 @@ Below a table with the summary of the Python checker. The CI Linter URL is inclu
 
 | File | CI URL | Screenshot | Notes |
 | --- | --- | --- | --- |
-| run.py | [CI PEP8](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/rpf13/sunshine/main/run.py) | [screenshot](docs/testing/pep8_main.png) | All clear, no errors found |
-| classes.py | [CI PEP8](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/rpf13/sunshine/main/classes.py) | [screenshot](docs/testing/pep8_classes.png) | All clear, no errors found |
-| my_emoji.py | [CI PEP8](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/rpf13/sunshine/main/my_emoji.py) | [screenshot](docs/testing/pep8_my_emoji.png) | All clear, no errors found |
+| run.py | [CI PEP8](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/rpf13/sunshine/main/run.py) | ![screenshot](docs/testing/pep8_main.png) | All clear, no errors found |
+| classes.py | [CI PEP8](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/rpf13/sunshine/main/classes.py) | ![screenshot](docs/testing/pep8_classes.png) | All clear, no errors found |
+| my_emoji.py | [CI PEP8](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/rpf13/sunshine/main/my_emoji.py) | ![screenshot](docs/testing/pep8_my_emoji.png) | All clear, no errors found |
 
 ---
 
@@ -51,11 +51,11 @@ This chapter will focus on the user story testing, giving a snapshot for each fe
 
 | User Story | Screenshot | Notes |
 | --- | --- | --- |
-| - As a visiting user, I would like to immediately understand the navigation through the app | [screenshot1](docs/testing/00_main_menu.png) & [screenshot2](docs/testing/01_live_country_proposal.png) | This has been achieved via the simple menu and the exact questions / possible answers for each section |
-| - As a visiting user, I would like to get the live weather data for my given location | [screenshot](docs/testing/01_live_accept_proposal.png) | Any possible location can be set as the input |
-| - As a visiting user, I would like to get the historical weatehr data for a particular day in past for a particular location. | [screenshot](docs/testing/02_hist_final_result.png) | The historical weather let's the user check any location for the last 50 years |
-| - As a visiting user, I would like to get the results of the weather displayed in a short and easy to understand format. | [screenshot](docs/testing/01_live_final_result.png) | The weather data get's displayed in a simple way; the temperature is a clear number and the weather interpretation is achieved via a short but distinctive sentence - supported via the emoji's. The wind is also displayed an easy to understand format. |
-| - As a visiting user, I would like to get enhanced weather information such as wind, weather condition. | [screenshot](docs/testing/02_hist_final_result.png) | Wind and weather condition are part of every reply |
+| - As a visiting user, I would like to immediately understand the navigation through the app | ![screenshot1](docs/testing/00_main_menu.png) ![screenshot2](docs/testing/01_live_country_proposal.png) | This has been achieved via the simple menu and the exact questions / possible answers for each section |
+| - As a visiting user, I would like to get the live weather data for my given location | ![screenshot](docs/testing/01_live_accept_proposal.png) | Any possible location can be set as the input |
+| - As a visiting user, I would like to get the historical weatehr data for a particular day in past for a particular location. | ![screenshot](docs/testing/02_hist_final_result.png) | The historical weather let's the user check any location for the last 50 years |
+| - As a visiting user, I would like to get the results of the weather displayed in a short and easy to understand format. | ![screenshot](docs/testing/01_live_final_result.png) | The weather data get's displayed in a simple way; the temperature is a clear number and the weather interpretation is achieved via a short but distinctive sentence - supported via the emoji's. The wind is also displayed an easy to understand format. |
+| - As a visiting user, I would like to get enhanced weather information such as wind, weather condition. | ![screenshot](docs/testing/02_hist_final_result.png) | Wind and weather condition are part of every reply |
 
 ---
 

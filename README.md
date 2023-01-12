@@ -61,7 +61,7 @@ The main goal of this app was to show and improve my Python skills. The deployme
     - It tells the user to make it's choice and enter the related number
     - It gives the user the possibility to start / restart the app / terminal, via the big red "Run Program" Button
 
-    ![Main Menu](docs/testing/00_main_menu.png)
+        ![Main Menu](docs/testing/00_main_menu.png)
 
 - Live weather data (Menu Item 1)
     - The first feature out of the main menu is live weather data.
