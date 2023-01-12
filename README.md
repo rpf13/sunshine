@@ -357,7 +357,7 @@ The following is a list of functions, used in this project. A brief explanation 
 - `validate_postalcode()`
     - Ask's for the postal / zip code and calls the `validate_zip_input()` to validate it
 - `get_location()`
-    - This is one of the two "API functions". It is responsible to get the coordinates via geopy OSM Nominatim API (via the geopy package). It returns an array with latitude, longitude. It calls the previously mentioned validation functions to verify user input. There are several try / except blocks, to do proper error handling at each individual step.
+    - This is one of the two "API functions". It is responsible to get the coordinates via geopy OSM Nominatim API (via the geopy package). It returns an array with latitude, longitude. It calls the previously mentioned validation functions to verify user input. There are several try / except blocks, to do proper error handling at each individual step. The call is smart and kind of lagnauge aware, it will automaticall return the best guess. However, it has it's limitations, if the input is too weird and does not match at all, it will return "None", which will be handled as an exception. 
 - `translate_weathercode(weathercode)`
     This function takes the weathercode, which we get via the `MeteoDataCall` class, and translates it to a human readable text string. It returns the string via the weathercondition variable.
 - `get_live_weather()`
