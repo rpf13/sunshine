@@ -140,7 +140,8 @@ The following "test-errors" have been executed in gitpod, because I did not want
     gitpod /workspace/sunshine (main) $ 
     ```
 
-- This test shows, what happens if the geopy Nominatim API get's stressed too much. The geopy module api, especially the free version used via the Open Street Maps from geopy.geocoders import Nominatim is not available for excessive use. If one tries over and over again asking for the same location, it will refuse to send a reply, as shown in the snapshot.
+- This test shows, what happens if the geopy Nominatim API get's stressed too much. The geopy module api, especially the free version used via the Open Street Maps from geopy.geocoders import Nominatim is not available for excessive use, see [Usage Policy](https://operations.osmfoundation.org/policies/nominatim/).
+If one tries over and over again asking for the same location, it will refuse to send a reply, as shown in the snapshot.
 This is mentioned on their webpage: https://nominatim.org/. I did not want to do this test again and again, since I do not want to get blocked from using their api, which would break my application. Therefore, I will showcase this error via a snapshot, which I did during development. However, the displayed error on the cli is different from the final version.
 
     ![Geopy API Stressed](docs/testing/99_geopy_api_stressed.png)
@@ -159,7 +160,7 @@ This is mentioned on their webpage: https://nominatim.org/. I did not want to do
         return
     ```
 
-    As a second step, the program will be terminated. When calling the get_live_weather() or the get_historical_weather() function, there is a second error handling in place that if I did not get proper coordinates back (we expect an array with two values), it will again handle the exception and exit the program, since there is no reason to ask the weather api with false geodata.
+    As a second step, the program will be terminated. When calling the get_live_weather() or the get_historical_weather() function, there is a second error handling in place, that if I did not get proper coordinates back (we expect an array with two values), it will again handle the exception and exit the program, since there is no reason to ask the weather api with false geodata.
 
 ---
 
@@ -220,5 +221,4 @@ The whole Github Issues section for my project can be accessed [here](https://gi
 | Geopy error if API stressed out | [Issue #1](https://github.com/rpf13/sunshine/issues/1) | Closed |
 
 There are no other remaining bugs, I am aware of.
-
 

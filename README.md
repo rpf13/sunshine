@@ -51,7 +51,7 @@ This site is a pure terminal based CLI app, which has limited browser support an
 
 This chapter will describe each feature of the application.
 
-The main goal of this app was to show and improve my Python skills. The deployment via Heroku as well as the deployment template / terminal emulation inside the browser, were provided to be used in this project. With this, there came some limitations. Furthermore, this project is not responsive and runs only on bigger screens (tablet or bigger). **Please Note, this app will only run in Chrome browser, without any issues!** This is due to limitations in the way the app is deployed, made accessible as a Terminal app inside the browser as well as some browser issues. More details on that in the testing / bugs section.
+The main goal of this app was to show and improve my Python skills. The deployment via Heroku as well as the deployment template / terminal emulation inside the browser, were provided to be used in this project. With this, there came some limitations. Furthermore, this project is not responsive and runs only on bigger screens. **Please Note, this app will only run in Chrome or Edge browser, without any issues!** This is due to limitations in the way the app is deployed, made accessible as a Terminal app inside the browser as well as some browser issues. More details on that in the testing / bugs section.
 
 ### Existing Features
 
@@ -80,7 +80,7 @@ The main goal of this app was to show and improve my Python skills. The deployme
         ![Live Weather Country](docs/testing/01_live_country.png)
 
     - Once the user has entered the country and pressed enter, he will be presented with a "best match" proposal of the desired town, based on the country
-    - The user has the choice accept or deny the proposal.
+    - The user has the choice to accept or deny the proposal.
     - If he accepts the proposal and enters yes, the weather data will be shown, please scroll down a few screenshots for an explanation of this option.
 
         ![Live Weather Country Proposal](docs/testing/01_live_country_proposal.png)
@@ -96,7 +96,7 @@ The main goal of this app was to show and improve my Python skills. The deployme
     - The first result is the temperature.
     - The second result is the actual weathercondition, which is the translated, standardized [WMO Weather interpretation codes](https://open-meteo.com/en/docs).
     - The weathercondition gets enriched via a matching emoji, to make the interpretation more appealing.
-    - The user gets asked if he wants to make another turn of live wheather, which would clear the screen and bring him back to enter a new town.
+    - The user gets asked, if he wants to make another turn of live wheather, which would clear the screen and bring him back to enter a new town.
 
         ![Live Weather Final Result](docs/testing/01_live_final_result.png)
 
@@ -107,35 +107,35 @@ The main goal of this app was to show and improve my Python skills. The deployme
     - If the user decides to not check another location for live weather and answer the question with "N", he will be sent back to the main menu.
     
 - Historical Weather Data (Menu Item 2)
-    - The second feature of the main moneu is the historical weather data.
-    - The user is prompted to enter a historical data, for which he wants to see the weather. The weather database is limited in historical data, therefore the user is able to ask back 50 years.
+    - The second feature of the main menu is the historical weather data.
+    - The user is prompted to enter a historical data, for which he wants to see the weather. For historical data, he weather database is limited, therefore the user is limited to get the weather for the last 50 years.
     - The input format is specified
 
-    ![Historical Weather Date Input](docs/testing/02_hist_date.png)
+        ![Historical Weather Date Input](docs/testing/02_hist_date.png)
 
-    - The subsequent questions / features are the same as for the live weather with the only exception, that the wording of the answers is in "the past".
+    - The subsequent questions / features are the same as for the live weather, with the only exception, that the wording of the answers is in "the past".
     - The decision tree itself is the same
 
-    ![Historical Weather Final Result](docs/testing/02_hist_final_result.png)
+        ![Historical Weather Final Result](docs/testing/02_hist_final_result.png)
 
 
 - Weather for Random Location (Menu Item 3)
-    - This feature is not implemented yet, however, since planned I left it on the main menu
+    - This feature is not implemented yet, however, since planned, I left it on the main menu
     - If a user enters the option 3 for the weather of a random location, he will get a text displayed, saying that the feature is not implemented yet.
     - The user will be informed, that he well be automatically redirected to the main menu
 
-    ![Radonm Weather](docs/testing/03_random_weather.png)
+        ![Radonm Weather](docs/testing/03_random_weather.png)
 
 - Exit Program (Menu Item 4)
     - This feature will gracefully end the program.
     - The user gets a goodbye message displayed
 
-    ![Exit Program](docs/testing/04_exit_program.png)
+        ![Exit Program](docs/testing/04_exit_program.png)
 
 - Start / Restart Program
-    - If the user has gracefully exit'ed the program or his browser did run in timeout, he can start the program via the "RUN PROGRAM" button above the terminal.
+    - If the user has gracefully exit'ed the program or his browser did run into a timeout, he can start the program via the "RUN PROGRAM" button above the terminal.
 
-    ![Run Program Button](docs/testing/00_run_program.png)
+        ![Run Program Button](docs/testing/00_run_program.png)
 
      
 ### Future Features
@@ -171,7 +171,7 @@ I used the following technologies and resources to create this site:
 - [Python](https://www.python.org) 
     - Python has been used as the main programming language.
 - [CI Python Linter](https://pep8ci.herokuapp.com)
-    - The Code Institute Pythin Linter has been used to verify the code, in addition to the alredy embedded code validator on Gitpod via the CI Python Project Template.
+    - The Code Institute Python Linter has been used to verify the code, in addition to the alredy embedded code validator on Gitpod via the CI Python Project Template.
 - [Draw.io](https://app.diagrams.net)
     - Draw.io has been used to create the flowchart and export it as png
 
@@ -186,21 +186,24 @@ The following flowchart displays the logic behind the app, it should be seen as 
 
 ### Classes, their Methods & Functions
 
-This chapter will give a brief explanation on the classes their related methods and the functions, used in the code.
+This chapter will give a brief explanation on the classes, their related methods and the functions, used in the code.
 I have created two classes for code, which I re-usable and to me, is a perfect place to live in a class.
+Furthermore, there are a couple of helpe functions, which are also built in a generic way to be re-used, whenever they are applicable.
 
 #### The MeteoDataCall Class
-This class contains two methods; the `live_data()` and the `historical_data()` method. The class itself takes one argument, when called - the coordinates, which is actually an array with two elements, the latitude [0] and the lingitude [1]. Since both methods needs the coordinates as input, it has been specified at the class level.
+This class contains two methods; the `live_data()` and the `historical_data()` method. The class itself takes one argument, when called - the coordinates, which is actually an array with two elements, the latitude [0] and the longitude [1]. Since both methods needs the coordinates as input, it has been specified at the class level.
+
 The `live_data()` method, does not require additional paramters, when called. The main purpose of this method is, to execute the api call to the open-meteo api. The url string for the api call is statically set as variable, but taking the coordinates array elemtens via string interpolation.
 It uses the requests library to make a GET request to the open-meteo.com API with the given location. The raise_for_status method is called on the response object to raise an exception if the API returns a non-successful
 status code.
 
-The fetch_data method is wrapped in a try block, and any HTTPError exceptions that are raised during the requestare caught in the except block.
+The request call is wrapped in a try block, and any HTTPError exceptions that are raised during the requestare caught in the except block.
 The return value of the api is a json, which will be further processed as the return value.
-If an exception gets raised, the program gets **intentionally** terminated, because it does not make sense tocontinue the program, if the API has a problem.
-If there is a HTTP error, not getting code 200 back from the API, the status code is displayed to the user. Forall the other, unknow errors, no error details are displayed.
-The `historical_data()` method works the same way as the previously explained `live_data()` method, with the onlydifference, that it needs an additional argument, when called. It requires the date, for which the user wants toget the historical weather info. 
-The url for the API call uses again the coordinates array values and, as explained, the historical date. The restof the method is the same.
+If an exception gets raised, the program gets **intentionally** terminated, because it does not make sense toc ontinue the program, if the API has a problem.
+If there is an HTTP error, not getting code 200 back from the API, the status code is displayed to the user. For all the other, unknown errors, no error details are displayed.
+
+The `historical_data()` method works the same way as the previously explained `live_data()` method, with the only difference, that it needs an additional argument, when called. It requires the date, for which the user wants toget the historical weather info. 
+The url for the API call uses again the coordinates array values and, as explained, the historical date. The rest of the method is the same.
 
 
 <details>
@@ -237,14 +240,13 @@ class MeteoDataCall:
                 "An error has occured when calling the Open-Weather API \n"
                 "Unfortunately we cannot get the weather data now. \n"
                 "Please try again later! \n"
-                "Error details: {}".format(error)
+                "The API has returned the status code: {}".format(error)
                 )
         # Handle any unknown API error and exit
         except Exception as error:
             sys.exit(
                 f"There was an undefined error with the Open-Weather API \n"
                 "Please try again later"
-                f"Error details: {error}"
                 )
 
     def historical_data(self, hist_date):
@@ -268,26 +270,28 @@ class MeteoDataCall:
                 "An error has occured when calling the Open-Weather API \n"
                 "Unfortunately we cannot get the weather data now. \n"
                 "Please try again later! \n"
-                "Error details: {}".format(error)
+                "The API has returned the status code: {}".format(error)
                 )
         # Handle any unknown API error and exit
         except Exception as error:
             sys.exit(
                 f"There was an undefined error with the Open-Weather API \n"
                 "Please try again later"
-                f"Error details: {error}"
                 )
 ```
 
 </details>
 
+
 #### The DateInputVerifier Class
 This class is used for the historical weather feature and is used to verfiy if the date input is valid and according to the requirements. The class itself does not require any arguments and it has the basic date syntax stored in the pattern variable. This simple regex checks only the amount of digits and the required hyphen.
+
 The `is_valid()` method takes the date as an input parameter. A conditional sequence starts, first of all is the check of the input against the pattern - the regex. If that is passed, it will split the input at the hyphen and allocate the variables year, month, day to it.
+
 The month get's checked if it is valid, only integers between 1 and 12 are valid.
-The day gets checked if it si valid, only integers between 1 and 31 are valid.
+The day gets checked if it is valid, only integers between 1 and 31 are valid.
 The year gets checked, if it is max. 50 years back from the current year. This requirement comes from the weather api, which has limited historical data.
-If any of the checks result invalid, False will be returned, otherwise True. This info will the be further process in the calling function.
+If any of the check results is invalid, False will be returned, otherwise True. This info will the be further processed in the calling function.
 
 
 <details>
@@ -302,6 +306,7 @@ class DateInputVerifier:
     does not support endless historical data
     """
     def __init__(self):
+        # Instance attribute
         self.pattern = r"^\d{4}-\d{2}-\d{2}$"
 
     def is_valid(self, date):
@@ -345,7 +350,7 @@ The following is a list of functions, used in this project. A brief explanation 
 - `clear_screen()`
     - As the name sais, it will clear the screen. It uses the os.system module.
 - `ask_input(question, options)`
-    - This generic function is used to create the "ask input loop", if a user has to enter Y or N. However, the function is generic and could be used for any other input questions, since the question and the answers (named as options), are input parameters.
+    - This generic helper function is used to create the "ask input loop", if a user has to enter Y or N or any other input question, like the one of the main menu. The function is generic and could be used for any other input questions, since the question and the answers (named as options), are input parameters.
 - `validate_input(string)`
     - Validates the input for town and country names and checks for valid syntax
 - `validate_address()`
@@ -357,19 +362,19 @@ The following is a list of functions, used in this project. A brief explanation 
 - `validate_postalcode()`
     - Ask's for the postal / zip code and calls the `validate_zip_input()` to validate it
 - `get_location()`
-    - This is one of the two "API functions". It is responsible to get the coordinates via geopy OSM Nominatim API (via the geopy package). It returns an array with latitude, longitude. It calls the previously mentioned validation functions to verify user input. There are several try / except blocks, to do proper error handling at each individual step. The call is smart and kind of lagnauge aware, it will automaticall return the best guess. However, it has it's limitations, if the input is too weird and does not match at all, it will return "None", which will be handled as an exception. 
+    - This is one of the two "API functions". It is responsible to get the coordinates via geopy OSM Nominatim API (via the geopy package). It returns an array with latitude, longitude. It calls the previously mentioned validation functions to verify user input. There are several try / except blocks, to do proper error handling at each individual step. The call is smart and kind of lagnauge aware, it will automatically return the best match. However, it has it's limitations, if the input is too weird and does not match at all, it will return "None", which will be handled as an exception. 
 - `translate_weathercode(weathercode)`
-    This function takes the weathercode, which we get via the `MeteoDataCall` class, and translates it to a human readable text string. It returns the string via the weathercondition variable.
+    This function takes the weathercode, which we get via the `MeteoDataCall` class, as argument and translates it to a human readable text string. It returns the string via the weathercondition variable.
 - `get_live_weather()`
-    - This function is the "main driver" for the live weather feature. It calls all necessary classes, methods and functions and correlates them together. It **intentionally** uses a "hard" sys.exit, if no geoinfo could be fetched via the geopy API. It does not make sense to continue the program, if there is no geoinfo. It does further error checking for each other level. It "stitches" the weathercode with the emoji's together (called via dedicated CONDITIONS constant, which is a hash). It uses the text string of the weathercode and replaces any whitespaces with underline to find then the related key in the hash.
+    - This function is the "main driver" for the live weather feature. It calls all necessary classes, methods and functions and correlates them together. It **intentionally** uses a "hard" sys.exit, if no geoinfo could be fetched via the geopy API. It does not make sense to continue the program, if there is no geoinfo. It does further error checking for each other level. It "stitches" the weathercode with the emoji's together (called via dedicated CONDITIONS constant, which is basically a hash). It uses the text string of the weathercode and replaces any whitespaces with underline to find then the related key in the hash.
 - `live_weather_loop()`
-    - This function is the loop to repeatedly ask the user if he wants to get the live weatehr for another location. It calls the `ask_input()` function to validate the input.
+    - This function is the loop to repeatedly ask the user if he wants to get the live weather for another location. It calls the `ask_input()` function to validate the input.
 - `get_historical_weather()`
-    - This function is the "main driver" for the historical weather feature. It calls all necessary classes, methods and functions and correlates them together. Unlike the `get_live_weather()` function, it starts with asking the user for a date as input, which get's verified via the `DateInputVerifier()` class and it's related method. The rest of the function follows the same concept as the `get_live_weather()` function, it does also **intentionally** uses a "hard" sys.exit,
+    - This function is the "main driver" for the historical weather feature. It calls all necessary classes, methods and functions and correlates them together. Unlike the `get_live_weather()` function, it starts with asking the user for a date as input, which get's verified via the `DateInputVerifier()` class and it's related method. The rest of the function follows the same concept as the `get_live_weather()` function, it does also **intentionally** use a "hard" sys.exit.
 - `historical_weather_loop()`
     - counterpart to the `live_weather_loop()`, but for the historical weather.
 - `main()`
-    - This is the main driver for the whole program, a while loop to display the menu and verfies the user input. It uses the pyfiglet paket to display the welcoming header.
+    - This is the main driver for the whole program, a while loop to display the menu and verfies the user input. It uses the pyfiglet paket to display the welcoming header. It does also use the `ask_input()` helper function, to check if the user input is valid or not.
 
 #### Other Python Files
 
@@ -377,7 +382,7 @@ The program contains the my_emoji.py file, which contains a constant called `CON
 
 ### Imports
 
-I've used the following Python packages and/or external imported packages.
+Besides the inport of my own classes and the my_emoji file, I've used the following Python packages and/or external imported packages.
 
 - `geopy` geocoding package used for OSM [geopy](https://pypi.org/project/geopy/)
 - `Nominatim` as part of the geopy packate, the [Open Street Map](https://nominatim.org) geocoding API Service
@@ -402,21 +407,21 @@ For all testing, please refer to the [TESTING.md](TESTING.md) file.
 The following chapters will give some insights on my thinking process and why I have decided to use things the way they are.
 
 ### Limitations
-During deployment / testing of the app (see [TESTING.md](TESTING.md)), I have figured out, that browser support for this way of running the terminal app in the browser is not the best. It runs only flawlessly in the Chrome browser. Safari does not work at all and in Firefox, the emoji's are cut in half, see open bug / limitation for it [#2](https://github.com/rpf13/sunshine/issues/2)
+During deployment / testing of the app (see [TESTING.md](TESTING.md)), I have figured out, that browser support for this way of running the terminal app in the browser is not the best. It runs only flawlessly in the Chrome / Edge browser. Safari does not work at all and in Firefox, the emoji's are cut in half, see open bug / limitation for it [#2](https://github.com/rpf13/sunshine/issues/2)
 
 ### Challenges 
 This project was a big, but very welcomed challange to me. I LOVED IT and I have figured out, that I really like Python!
 I did not want to build another "Hangman, Battleship, ..." game, which many students go for at this point for their Project Portfolio 3 work. A working colleague told me: "Why don't you create a cli based weather app", an I fell in love with the idea.
 Since we did not yet cover API's (except the basic Google Spreadsheet API), I really had to get to know on how this is done. The open-weather API is a relatively easy one, since it does not require authentication.
 
-I did also set myself the goal to use self created classes, use additional modules. Classes are a great concept in coding to limit repetition and rather create "generic build plans", to instantiate when needed.
+I did also set myself the goal to use self created classes, use additional modules. Classes are a great concept in coding to limit repetition, following the DRY paradigm and therefore create "generic build plans", to instantiate when needed.
 
 I also wanted to showcase my basic regex knowledge and this was the reason I have used it at some parts. Well, how else to verify input? Regex is the easiest way.
 
-One of the biggest challenges was to understand the geopy package - the Nominatim OpenStreetMap api. I did face quite some challanges, since I did not entirely read the documentation and the limitations / usage policy upfront. This brought me to implement some better error handling.
+One of the biggest challenges was to understand the geopy package - the Nominatim OpenStreetMap api. I did face quite some challanges, since I did not entirely read the documentation and the limitations / usage policy upfront [Usage Policy](https://operations.osmfoundation.org/policies/nominatim/). This brought me to implement some better error handling.
 
 ### Error Handling
-I did take great attention and big efforts on the error handling. Since I am using two API's, this was quite a challenge. I have tried to do extensive error handling in order to prevent the application to fail and just diplay errors to the user. I did also **intentionally** use the sys.exit on a few places, which would exit the user from the program if a certain condition is met (in combination with displaying a reason). If the geopy API does not return a result, or the API call to the open-weather API fails, there is not reason to continue the program. I am strongly convinced, it is the right decision to exit the program in such a case.
+I did take great attention and big efforts on the error handling. Since I am using two API's, this was quite a challenge. I have tried to do extensive error handling in order, to prevent the application to fail and just diplay errors to the user. I did also **intentionally** use the sys.exit on a few places, which would exit the user from the program if a certain condition is met (in combination with displaying a reason). If the geopy API does not return a result, or the API call to the open-weather API fails, there is not reason to continue the program. I am strongly convinced, it is the right decision to exit the program in such a case.
 
 I have tried to cover every possible error or using a generic error handling via the try / except blocks to prevent a bad experiense. In combination with the many while loops and user inputs, it was a big challenge. This was also the main reason, why I did create the dedicated `ask_input()` function, which outsources the check of the correct input - given a choice like Y / N. The way I wrote code did not work when having this check inside the related function.
 Anyway, it is great to have such a repetitive task in a generic, dedicated function.
@@ -550,7 +555,7 @@ The following list of sources has been used:
 | [GeekforGeeks](https://www.geeksforgeeks.org/python-exit-commands-quit-exit-sys-exit-and-os-_exit/) | Great article on teaching me the right way of using an exit in a program and compare the various options.
 
 ### Acknowledgements
-- A very big Thank You goes to my mentor Tim Nelso, who critically checked my application and helped in so many ways. Tim, you are an awesome inspiration, I cannot thank you enough!
+- A very big Thank You goes to my mentor Tim Nelson, who critically checked my application and helped in so many ways. Tim, you are an awesome inspiration, I cannot thank you enough!
 - A huge thank you goes to my working colleagu Hans Heisig, who brought me up to the initial idea: "Hey, why don't you create a CLI weather app?". I thank you a lot for bringing up this idea, which I have liked from the beginning. However, it was a very challenging journey. I am very thankful for the time you did invest to "intentionally break" my application and gave me great advice regarding error handling. You are an awesome, helpful person - Thank You!
 - Without the support of my wife and my little son, it would not have been possible to spend endless hours, working on this project and doing research. Many thanks to my little son for giving me a smile and very welcomed distraction, during times I was frustrated.
 - Thanks to all the friends and co workers, who have tested out the application - and have tried to find the sunshine...
